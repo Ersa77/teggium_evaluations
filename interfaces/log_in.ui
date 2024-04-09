@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>407</width>
-    <height>461</height>
+    <height>558</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,6 +37,21 @@ background-color: rgb(100, 255, 255);
 
 #log_in_button:pressed {
 background-color: rgb(27, 198, 186)
+}
+
+#cerrar_button {background-color: rgb(255, 80, 80);
+font: 14pt &quot;Arial&quot;;
+border-radius: 10px;
+border-width: 2px;
+hover: rgb(212, 255, 252)
+}
+
+#cerrar_button:hover {
+background-color: rgb(255, 136, 136);
+}
+
+#cerrar_button:pressed {
+background-color: rgb(186, 3, 3)
 }</string>
   </property>
   <widget class="QLabel" name="label_welcome">
@@ -94,7 +109,7 @@ background-color: rgb(27, 198, 186)
      <x>70</x>
      <y>270</y>
      <width>271</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -122,7 +137,7 @@ background-color: rgb(27, 198, 186)
      <x>70</x>
      <y>330</y>
      <width>271</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -138,15 +153,14 @@ background-color: rgb(27, 198, 186)
   <widget class="QPushButton" name="log_in_button">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>390</y>
-     <width>221</width>
-     <height>41</height>
+     <x>110</x>
+     <y>440</y>
+     <width>191</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">
-</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>INICIAR SESION</string>
@@ -166,6 +180,35 @@ background-color: rgb(27, 198, 186)
    </property>
    <property name="pixmap">
     <pixmap>../media/imagenes/logo.jpg</pixmap>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="cerrar_button">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>500</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CERRAR</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="show_pass">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>380</y>
+     <width>151</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Mostrar contraseña</string>
    </property>
   </widget>
  </widget>

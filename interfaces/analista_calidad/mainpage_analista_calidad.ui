@@ -6,32 +6,78 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>624</width>
-    <height>433</height>
+    <width>773</width>
+    <height>675</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton {background-color: rgb(0, 255, 255);
+font: 14pt &quot;Arial&quot;;
+border-radius: 10px;
+border-width: 2px;
+hover: rgb(212, 255, 252)
+}
+
+QPushButton:hover {
+background-color: rgb(100, 255, 255);
+}
+
+QPushButton:pressed {
+background-color: rgb(27, 198, 186)
+}
+
+QLabel{
+font: 14pt &quot;Arial&quot;;
+}
+
+#logout_button {background-color: rgb(255, 80, 80);
+font: 14pt &quot;Arial&quot;;
+border-radius: 10px;
+border-width: 2px;
+hover: rgb(212, 255, 252)
+}
+
+#logout_button:hover {
+background-color: rgb(255, 136, 136);
+}
+
+#logout_button:pressed {
+background-color: rgb(186, 3, 3)
+}
+
+#welcome_label_analista_calidad{
+font: 18pt &quot;Arial&quot;;
+}
+</string>
   </property>
   <widget class="QLabel" name="welcome_label_analista_calidad">
    <property name="geometry">
     <rect>
      <x>40</x>
      <y>30</y>
-     <width>71</width>
-     <height>16</height>
+     <width>451</width>
+     <height>81</height>
     </rect>
    </property>
    <property name="text">
     <string>BIENVENID@</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+   <property name="margin">
+    <number>1</number>
    </property>
   </widget>
   <widget class="QLabel" name="options_label_1">
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>110</y>
-     <width>81</width>
+     <y>150</y>
+     <width>151</width>
      <height>16</height>
     </rect>
    </property>
@@ -43,9 +89,9 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>150</y>
-     <width>121</width>
-     <height>23</height>
+     <y>190</y>
+     <width>241</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -55,22 +101,23 @@
   <widget class="QPushButton" name="view_evaluation">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>150</y>
-     <width>311</width>
-     <height>21</height>
+     <x>40</x>
+     <y>260</y>
+     <width>341</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="text">
-    <string>CONSULTAR HISTORICO DE EVALUACIONES POR EJECUTIVO</string>
+    <string>CONSULTAR REGISTRO DE 
+EVALUACIONES POR EJECUTIVO</string>
    </property>
   </widget>
   <widget class="QLabel" name="options_label_2">
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>220</y>
-     <width>71</width>
+     <y>350</y>
+     <width>131</width>
      <height>16</height>
     </rect>
    </property>
@@ -81,10 +128,10 @@
   <widget class="QPushButton" name="view_results">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>270</y>
-     <width>181</width>
-     <height>23</height>
+     <x>40</x>
+     <y>390</y>
+     <width>341</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -94,10 +141,10 @@
   <widget class="QPushButton" name="view_general_results">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>270</y>
-     <width>151</width>
-     <height>23</height>
+     <x>40</x>
+     <y>460</y>
+     <width>291</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -108,9 +155,9 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>380</y>
-     <width>111</width>
-     <height>23</height>
+     <y>590</y>
+     <width>211</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -120,7 +167,7 @@
   <widget class="QLabel" name="LOGO">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>510</x>
      <y>20</y>
      <width>251</width>
      <height>71</height>

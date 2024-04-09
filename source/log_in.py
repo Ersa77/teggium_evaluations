@@ -1,5 +1,5 @@
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox, QLineEdit
 import sqlite3
 
 class Login(QWidget):
@@ -8,10 +8,19 @@ class Login(QWidget):
         loadUi("interfaces/log_in.ui", self)
         self.setWindowTitle('INICIAR SESION')
         self.log_in_button.clicked.connect(self.login)
+        self.show_pass.stateChanged.connect(self.show_pass_uwu)
+        self.userpass.setEchoMode(QLineEdit.Password)
+        self.cerrar_button.clicked.connect(self.cerrar)
+
+    def show_pass_uwu(self, state):
+        if state == 2:  
+            self.userpass.setEchoMode(QLineEdit.Normal)
+        else:
+            self.userpass.setEchoMode(QLineEdit.Password)
 
     def login(self):
         username = self.username.text()
-        password = self.userpass.text()  # Usar text() para obtener el texto del campo de contraseña
+        password = self.userpass.text()  
 
         from conection import crear_conexion
         conexion = crear_conexion()
@@ -25,14 +34,21 @@ class Login(QWidget):
         
         elif usuario:
             from mainpage_analista_calidad import Logout
+            from conection import usuario_analista_evaluador
             self.close()
             QMessageBox.information(self, "INICIO DE SESION", "INICIO DE SESION EXITOSO")
-            self.main_window= Logout()
+            usuario_logeado = usuario_analista_evaluador(username)
+            nombre, rol = usuario_logeado
+            self.main_window= Logout(nombre, rol)
             self.main_window.show()
             self.log_in = Login()
         
         else:
             QMessageBox.warning(self, "INICIO DE SESION", "CREDENCIALES INCORRECTAS")
+
+
+    def cerrar(self):
+        self.close()
 
 if __name__ == "__main__":
     app = QApplication([])
