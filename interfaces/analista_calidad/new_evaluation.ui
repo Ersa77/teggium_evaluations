@@ -22,6 +22,7 @@ border-radius: 10px;
 
 QComboBox{
 background-color: rgb(223, 223, 223);
+font: 10pt &quot;Arial&quot;;
 color: rgb(0, 0, 0);
 border-radius: 10px;
 }
@@ -98,7 +99,7 @@ font: 10pt &quot;Arial&quot;;
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>200</y>
+      <y>240</y>
       <width>121</width>
       <height>16</height>
      </rect>
@@ -183,7 +184,7 @@ font: 10pt &quot;Arial&quot;;
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>200</y>
+      <y>240</y>
       <width>391</width>
       <height>22</height>
      </rect>
@@ -270,7 +271,7 @@ font: 10pt &quot;Arial&quot;;
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>240</y>
+      <y>200</y>
       <width>101</width>
       <height>20</height>
      </rect>
@@ -283,7 +284,7 @@ font: 10pt &quot;Arial&quot;;
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>240</y>
+      <y>200</y>
       <width>391</width>
       <height>22</height>
      </rect>
@@ -344,6 +345,9 @@ font: 10pt &quot;Arial&quot;;
      <width>707</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="nativeMenuBar">
+    <bool>true</bool>
    </property>
    <widget class="QMenu" name="menuEVALUAR_ANALISTA">
     <property name="title">
