@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QLineEdit, QLabel, QTableWidgetItem,QMainWindow, QComboBox, QTextEdit
+from PyQt5.QtWidgets import QApplication, QLineEdit, QLabel, QTableWidgetItem,QMainWindow, QComboBox
 from PyQt5.uic import loadUi
-from PyQt5.QtCore import Qt
+from PyQt5 import QtWidgets
 from conection import traer_preguntas
 
 class cuestionario(QMainWindow):
@@ -13,6 +13,8 @@ class cuestionario(QMainWindow):
         self.space_preguntas.setRowCount(len(resultados))
         self.space_preguntas.setColumnCount(4)
         self.space_preguntas.setHorizontalHeaderItem(0, QTableWidgetItem("Preguntas"))
+        self.clear_evaluation.clicked.connect(self.limpiar)
+        self.cancel_evaluation.clicked.connect(self.cancelar)
 
         for fila, pregunta in enumerate(resultados):
                 #Se establecen las preguntas en la columna 0
@@ -40,6 +42,16 @@ class cuestionario(QMainWindow):
 
         self.space_preguntas.resizeColumnsToContents()
         self.space_preguntas.resizeRowsToContents()
+
+
+    def limpiar(self):
+        for combobox in self.findChildren(QtWidgets.QComboBox):
+            combobox.setCurrentIndex(-1)
+        for lineedit in self.findChildren(QtWidgets.QLineEdit):
+            lineedit.clear()
+
+    def cancelar(self):
+        self.close()
 
 
 if __name__ == '__main__':

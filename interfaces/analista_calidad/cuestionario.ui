@@ -6,37 +6,73 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1158</width>
-    <height>762</height>
+    <width>1043</width>
+    <height>704</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#usuario_evaluado{
-  border-width: 1px;
-  border-style: solid;
-  border-color: black;
+   <string notr="true">QLineEdit{
+background-color: rgb(223, 223, 223);
+color: rgb(0, 0, 0);
+border-radius: 10px;
 }
 
-#proceso_evaluado{
-  border-width: 1px;
-  border-style: solid;
-  border-color: black;
+QComboBox{
+background-color: rgb(223, 223, 223);
+font: 10pt &quot;Arial&quot;;
+color: rgb(0, 0, 0);
+border-radius: 10px;
 }
 
-#tipo_evaluacion{
-  border-width: 1px;
-  border-style: solid;
-  border-color: black;
+QLineEdit:hover{
+background-color: rgb(180, 180, 180)
+}
+QComboBox:hover{
+background-color: rgb(180, 180, 180)
+}
+
+QPushButton {background-color: rgb(0, 255, 255);
+font: 14pt &quot;Arial&quot;;
+border-radius: 10px;
+border-width: 2px;
+hover: rgb(212, 255, 252)
+}
+
+QPushButton:hover {
+background-color: rgb(100, 255, 255);
+}
+
+QPushButton:pressed {
+background-color: rgb(27, 198, 186)
+}
+
+#cancel_evaluation {background-color: rgb(255, 80, 80);
+font: 14pt &quot;Arial&quot;;
+border-radius: 10px;
+border-width: 2px;
+hover: rgb(212, 255, 252)
+}
+
+#cancel_evaluation:hover {
+background-color: rgb(255, 136, 136);
+}
+
+#cancel_evaluation:pressed {
+background-color: rgb(186, 3, 3)
+}
+
+QLabel{
+font: 10pt &quot;Arial&quot;;
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="logo">
     <property name="geometry">
      <rect>
-      <x>810</x>
+      <x>760</x>
       <y>10</y>
       <width>251</width>
       <height>71</height>
@@ -53,7 +89,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>20</y>
+      <y>30</y>
       <width>441</width>
       <height>31</height>
      </rect>
@@ -72,7 +108,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>70</y>
+      <y>80</y>
       <width>441</width>
       <height>31</height>
      </rect>
@@ -85,7 +121,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>120</y>
+      <y>130</y>
       <width>441</width>
       <height>31</height>
      </rect>
@@ -97,7 +133,7 @@
    <widget class="QTableWidget" name="space_preguntas">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>30</x>
       <y>190</y>
       <width>981</width>
       <height>421</height>
@@ -110,10 +146,10 @@
    <widget class="QPushButton" name="cancel_evaluation">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>660</y>
-      <width>75</width>
-      <height>23</height>
+      <x>250</x>
+      <y>630</y>
+      <width>131</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -123,10 +159,10 @@
    <widget class="QPushButton" name="clear_evaluation">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>660</y>
-      <width>75</width>
-      <height>23</height>
+      <x>430</x>
+      <y>630</y>
+      <width>131</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -136,10 +172,10 @@
    <widget class="QPushButton" name="save_evaluation">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>660</y>
-      <width>75</width>
-      <height>23</height>
+      <x>610</x>
+      <y>630</y>
+      <width>131</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
