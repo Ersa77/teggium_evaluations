@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout,QMainWindow, QComboBox, QTextEdit
+from PyQt5.QtWidgets import QApplication, QLineEdit, QLabel, QTableWidgetItem,QMainWindow, QComboBox, QTextEdit
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import Qt
 from conection import traer_preguntas
@@ -10,14 +10,36 @@ class cuestionario(QMainWindow):
         self.usuario_evaluado.setText("Usuario Evaluado: " + evaluado)
         self.proceso_evaluado.setText("Proceso Evaluado: " + proceso_pt)
         self.tipo_evaluacion.setText("Tipo de Evaluación: " + tipo_evaluacion)
-        pos_a= 130
-        for pregunta in resultados:
-            new_label= QLabel(self)
-            new_label.setText(pregunta[0])
-            new_label.setAlignment(Qt.AlignLeft)
-            new_label.adjustSize()
-            new_label.move(30, pos_a)
-            pos_a += new_label.height()+5
+        self.space_preguntas.setRowCount(len(resultados))
+        self.space_preguntas.setColumnCount(4)
+        self.space_preguntas.setHorizontalHeaderItem(0, QTableWidgetItem("Preguntas"))
+
+        for fila, pregunta in enumerate(resultados):
+                #Se establecen las preguntas en la columna 0
+                new_item_row1 = QTableWidgetItem(str(pregunta[1]))
+                self.space_preguntas.setItem(fila, 0, new_item_row1)
+
+                #Se establece el combobox para SI o NO
+                resp1 = QComboBox()
+                resp1.addItem("Si")
+                resp1.addItem("No")
+                resp1.addItem("N/A")
+                self.space_preguntas.setCellWidget(fila, 1, resp1)
+
+                #Se establece el combobox para En tiempo o no
+                resp1 = QComboBox()
+                resp1.addItem("En tiempo")
+                resp1.addItem("Fuera de tiempo")
+                resp1.addItem("Critico")
+                self.space_preguntas.setCellWidget(fila, 2, resp1)
+
+                #Se establece el textedit para los comentarios 
+                comentarios = QLineEdit()
+                comentarios.setPlaceholderText("Comentarios")
+                self.space_preguntas.setCellWidget(fila, 3, comentarios)
+
+        self.space_preguntas.resizeColumnsToContents()
+        self.space_preguntas.resizeRowsToContents()
 
 
 if __name__ == '__main__':
