@@ -68,22 +68,6 @@ class new_evaluation(QMainWindow):
         supervisor= self.supervisor.currentText()
         llenar_analistas(self, campaign, supervisor)
 
-#CLASE (VENTANA) de prueba para ver los resultados de la ventana anterior (pendiente)
-# class view_results(QWidget):
-#     def __init__(self, campaign, analyst, supervisor, siniestro, fecha_evaluacion, tipo_evaluacion, actividad, evaluador):
-#         super().__init__()
-#         loadUi('interfaces/analista_calidad/show_analyst_data.ui', self)
-#         self.respuestas.setText("""EVALUACION \n
-#                                    Campaña: {}\n
-#                                    Analista Evaluado: {}\n
-#                                    Supervisor: {}\n
-#                                    # Siniestro: {}\n
-#                                    Fecha de Evaluación: {}\n
-#                                    Tipo de evaluación: {}\n
-#                                    Actividad: {}\n
-#                                    Evaluador: {}\n"""\
-#                                 .format(campaign,analyst,supervisor,siniestro,fecha_evaluacion,tipo_evaluacion,actividad,evaluador))
-
 if __name__ == "__main__":
     app = QApplication([])
     login_window = new_evaluation()

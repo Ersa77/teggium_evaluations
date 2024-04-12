@@ -11,14 +11,17 @@ class cuestionario(QMainWindow):
         self.proceso_evaluado.setText("Proceso Evaluado: " + proceso_pt)
         self.tipo_evaluacion.setText("Tipo de Evaluación: " + tipo_evaluacion)
         self.space_preguntas.setRowCount(len(resultados))
-        self.space_preguntas.setColumnCount(4)
+        self.space_preguntas.setColumnCount(3)
         self.space_preguntas.setHorizontalHeaderItem(0, QTableWidgetItem("Preguntas"))
         self.clear_evaluation.clicked.connect(self.limpiar)
         self.cancel_evaluation.clicked.connect(self.cancelar)
+        #Se establece el combobox para En tiempo o no
+        self.sla.addItem("Dentro")
+        self.sla.addItem("Fuera")
 
         for fila, pregunta in enumerate(resultados):
                 #Se establecen las preguntas en la columna 0
-                new_item_row1 = QTableWidgetItem(str(pregunta[1]))
+                new_item_row1 = QTableWidgetItem(str(pregunta[1]) + " (Valor: " +str(pregunta[2]) + " puntos)")
                 self.space_preguntas.setItem(fila, 0, new_item_row1)
 
                 #Se establece el combobox para SI o NO
@@ -28,17 +31,10 @@ class cuestionario(QMainWindow):
                 resp1.addItem("N/A")
                 self.space_preguntas.setCellWidget(fila, 1, resp1)
 
-                #Se establece el combobox para En tiempo o no
-                resp1 = QComboBox()
-                resp1.addItem("En tiempo")
-                resp1.addItem("Fuera de tiempo")
-                resp1.addItem("Critico")
-                self.space_preguntas.setCellWidget(fila, 2, resp1)
-
                 #Se establece el textedit para los comentarios 
                 comentarios = QLineEdit()
                 comentarios.setPlaceholderText("Comentarios")
-                self.space_preguntas.setCellWidget(fila, 3, comentarios)
+                self.space_preguntas.setCellWidget(fila, 2, comentarios)
 
         self.space_preguntas.resizeColumnsToContents()
         self.space_preguntas.resizeRowsToContents()

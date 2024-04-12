@@ -77,7 +77,7 @@ def llenar_evaluador(self):
 
 def traer_preguntas(self, proceso_pt):
      cursor.execute("""
-                    SELECT id_pregunta, pregunta, tipo_pregunta
+                    SELECT id_pregunta, pregunta, ponderacion, tipo_pregunta
                     FROM preguntas
                     JOIN procesos_pt USING (id_proceso)
                     JOIN tipos_preguntas USING (id_tipo_pregunta)
