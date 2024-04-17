@@ -41,7 +41,7 @@ class new_evaluation(QMainWindow):
     def cancelar(self):
         self.close()
 
-    def iniciar(self): #Hasta ahora esto solo guarda las variables
+    def iniciar(self):
         from cuestionario import cuestionario
         campaign = self.campania.currentText()
         analyst= self.analyst_name.currentText()
@@ -51,9 +51,10 @@ class new_evaluation(QMainWindow):
         tipo_evaluacion= self.tipo_evaluacion.currentText()
         proceso_pt= self.activity.currentText()
         evaluador= self.analista_calidad.currentText()
-        resultados= traer_preguntas(self,proceso_pt)
+        preguntas= traer_preguntas(self,proceso_pt)
+        desviaciones= traer_desviaciones(self, proceso_pt)
 
-        self.empezar_cuestionario = cuestionario(analyst, proceso_pt, tipo_evaluacion, resultados)
+        self.empezar_cuestionario = cuestionario(analyst, proceso_pt, tipo_evaluacion, preguntas, desviaciones)
         self.empezar_cuestionario.show()
 
 #Cuando se cambia un valor de los combobox de campaña o supervisor

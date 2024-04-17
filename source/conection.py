@@ -81,6 +81,18 @@ def traer_preguntas(self, proceso_pt):
                     FROM preguntas
                     JOIN procesos_pt USING (id_proceso)
                     JOIN tipos_preguntas USING (id_tipo_pregunta)
-                    WHERE nombre_proceso = ?;""", (proceso_pt,))
+                    WHERE nombre_proceso = ?
+                    AND (tipo_pregunta = 'Calidad de atención' OR tipo_pregunta= 'Proceso')""", (proceso_pt,))
+     resultados= cursor.fetchall()
+     return resultados
+
+def traer_desviaciones(self, proceso_pt):
+     cursor.execute("""
+                    SELECT id_pregunta, pregunta, ponderacion, tipo_pregunta
+                    FROM preguntas
+                    JOIN procesos_pt USING (id_proceso)
+                    JOIN tipos_preguntas USING (id_tipo_pregunta)
+                    WHERE nombre_proceso = ?
+                    AND (tipo_pregunta = 'Errores operativos' OR tipo_pregunta= 'Desviaciones graves')""", (proceso_pt,))
      resultados= cursor.fetchall()
      return resultados
