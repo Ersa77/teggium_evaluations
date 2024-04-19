@@ -4,10 +4,10 @@ from PyQt5 import QtWidgets
 from conection import traer_preguntas
 
 class cuestionario(QMainWindow):
-    def __init__(self, evaluado, proceso_pt, tipo_evaluacion, preguntas, desviaciones):
+    def __init__(self, campaign, analyst, supervisor, siniestro, fecha_evaluacion, proceso_pt, tipo_evaluacion, evaluador, preguntas, desviaciones):
         super().__init__()
         loadUi('interfaces/analista_calidad/cuestionario.ui', self)
-        self.usuario_evaluado.setText("Usuario Evaluado: " + evaluado)
+        self.usuario_evaluado.setText("Usuario Evaluado: " + analyst)
         self.proceso_evaluado.setText("Proceso Evaluado: " + proceso_pt)
         self.tipo_evaluacion.setText("Tipo de Evaluación: " + tipo_evaluacion)
 
@@ -67,6 +67,7 @@ class cuestionario(QMainWindow):
 
         self.clear_evaluation.clicked.connect(self.limpiar)
         self.cancel_evaluation.clicked.connect(self.cancelar)
+        self.save_evaluation.clicked.connect(lambda: self.guardarEvaluacion(campaign=campaign, analyst=analyst, supervisor=supervisor, siniestro=siniestro, fecha_evaluacion=fecha_evaluacion, proceso_pt=proceso_pt, tipo_evaluacion=tipo_evaluacion, evaluador=evaluador))
         #Se establece el combobox para En tiempo o no
         self.sla.addItem("Dentro")
         self.sla.addItem("Fuera")
@@ -80,6 +81,31 @@ class cuestionario(QMainWindow):
     def cancelar(self):
         self.close()
 
+    def guardarEvaluacion(self, **kwargs):
+         campaign = kwargs.get("campaign", None)
+         analyst = kwargs.get("analyst", None)
+         supervisor = kwargs.get("supervisor", None)
+         siniestro = kwargs.get("siniestro", None)
+         fecha_evaluacion = kwargs.get("fecha_evaluacion", None)
+         proceso_pt = kwargs.get("proceso_pt", None)
+         tipo_evaluacion = kwargs.get("tipo_evaluacion", None)
+         evaluador = kwargs.get("evaluador", None)
+         preguntas = traer_preguntas(self, proceso_pt)
+         print(analyst, campaign, supervisor, siniestro, fecha_evaluacion, proceso_pt, tipo_evaluacion, evaluador)
+         resultado= 0
+         for fila, pregunta in enumerate(preguntas):
+                #muestra la pregunta (mismo orden en el que las trae, asi que no hay pierde)
+                print(str(pregunta[1]) + " (Valor " + str(pregunta[2]) + " puntos)")
+
+                #Se trae el combobox con SI o NO
+                res= self.space_preguntas.cellWidget(fila, 1).currentText()
+                print(self.space_preguntas.cellWidget(fila, 1).currentText())
+                if res == 'Si':
+                     resultado= resultado + int(pregunta[2])
+
+                #Se trae el textedit con los comentarios 
+                print(self.space_preguntas.cellWidget(fila, 2).text())
+         print("RESULTADO DE LA EVALUACION: " + str(resultado))
 
 if __name__ == '__main__':
     app = QApplication([])

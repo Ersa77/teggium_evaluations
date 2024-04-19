@@ -96,3 +96,53 @@ def traer_desviaciones(self, proceso_pt):
                     AND (tipo_pregunta = 'Errores operativos' OR tipo_pregunta= 'Desviaciones graves')""", (proceso_pt,))
      resultados= cursor.fetchall()
      return resultados
+
+def insertar_cosas(self, id_evaluacion,analyst, siniestro, fecha_evaluacion, tipo_evaluacion, proceso, evaluadora, pregunta, respuesta, sla, comentario):
+     cursor.execute("""
+                    INSERT INTO respuestas (id_evaluacion,id_campaign, id_supervisor, id_user, no_siniestro, fecha_evaluacion, id_tipo, id_proceso, id_aud, id_pregunta, respuesta, sla, comentarios)
+                    VALUES (?,
+                         (
+                         SELECT id_campaign 
+                         FROM pt_anaylst_teggium
+                         WHERE name_anaylst = ?
+                         ),
+                         (
+                         SELECT id_supervisor 
+                         FROM pt_anaylst_teggium
+                         WHERE name_anaylst = ?
+                         ),
+                         (
+                         SELECT id_user 
+                         FROM pt_anaylst_teggium 
+                         WHERE name_anaylst = ?
+                         ),
+                    --NO SINIESTRO, FECHA EVALUACION
+                         ?,
+                         ?,
+                         (
+                         SELECT id_tipo 
+                         FROM tipos_evaluaciones 
+                         WHERE tipo_evaluacion = ?
+                         ),
+                         (
+                         SELECT id_proceso 
+                         FROM procesos_pt
+                         WHERE nombre_proceso = ?
+                         ),
+                         (
+                         SELECT id_aud 
+                         FROM auditores_calidad
+                         WHERE name_aud = ?
+                         ),
+                         (
+                         SELECT id_pregunta 
+                         FROM preguntas 
+                         WHERE pregunta = ?
+                         AND id_proceso =	(SELECT id_proceso 
+                                                  FROM procesos_pt
+                                                  WHERE nombre_proceso = ?)
+                         ),
+                    --RESPUESTA, SLA, COMENTARIO
+                         ?, ?, ?)""",\
+                    (id_evaluacion,analyst, analyst, analyst, siniestro, fecha_evaluacion, tipo_evaluacion, proceso, evaluadora, pregunta, proceso, respuesta, sla, comentario))
+     conexion.commit()

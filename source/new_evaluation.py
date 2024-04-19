@@ -54,7 +54,7 @@ class new_evaluation(QMainWindow):
         preguntas= traer_preguntas(self,proceso_pt)
         desviaciones= traer_desviaciones(self, proceso_pt)
 
-        self.empezar_cuestionario = cuestionario(analyst, proceso_pt, tipo_evaluacion, preguntas, desviaciones)
+        self.empezar_cuestionario = cuestionario(campaign, analyst, supervisor, siniestro, fecha_evaluacion, proceso_pt, tipo_evaluacion, evaluador, preguntas, desviaciones)
         self.empezar_cuestionario.show()
 
 #Cuando se cambia un valor de los combobox de campaña o supervisor
