@@ -1,7 +1,7 @@
-from PyQt5.QtWidgets import QApplication, QLineEdit, QHeaderView, QTableWidgetItem,QMainWindow, QComboBox
+from PyQt5.QtWidgets import QApplication, QLineEdit, QMessageBox, QTableWidgetItem,QMainWindow, QComboBox
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
-from conection import traer_preguntas
+from conection import traer_preguntas, traer_desviaciones, obtenerEvaluacionID, insertar_cosas
 
 class cuestionario(QMainWindow):
     def __init__(self, campaign, analyst, supervisor, siniestro, fecha_evaluacion, proceso_pt, tipo_evaluacion, evaluador, preguntas, desviaciones):
@@ -64,13 +64,13 @@ class cuestionario(QMainWindow):
         self.space_desviaciones.resizeColumnsToContents()
         self.space_desviaciones.resizeRowsToContents()
         self.space_desviaciones.setColumnWidth(0,800)
+        #Se establece el combobox para En tiempo o no
+        self.sla.addItem("Dentro")
+        self.sla.addItem("Fuera")
 
         self.clear_evaluation.clicked.connect(self.limpiar)
         self.cancel_evaluation.clicked.connect(self.cancelar)
         self.save_evaluation.clicked.connect(lambda: self.guardarEvaluacion(campaign=campaign, analyst=analyst, supervisor=supervisor, siniestro=siniestro, fecha_evaluacion=fecha_evaluacion, proceso_pt=proceso_pt, tipo_evaluacion=tipo_evaluacion, evaluador=evaluador))
-        #Se establece el combobox para En tiempo o no
-        self.sla.addItem("Dentro")
-        self.sla.addItem("Fuera")
 
     def limpiar(self):
         for combobox in self.findChildren(QtWidgets.QComboBox):
@@ -82,6 +82,12 @@ class cuestionario(QMainWindow):
         self.close()
 
     def guardarEvaluacion(self, **kwargs):
+         id_evaluacion= obtenerEvaluacionID(self)
+         if id_evaluacion is None:
+            id_evaluacion = 1
+         else:
+            id_evaluacion = id_evaluacion + 1
+            
          campaign = kwargs.get("campaign", None)
          analyst = kwargs.get("analyst", None)
          supervisor = kwargs.get("supervisor", None)
@@ -91,21 +97,51 @@ class cuestionario(QMainWindow):
          tipo_evaluacion = kwargs.get("tipo_evaluacion", None)
          evaluador = kwargs.get("evaluador", None)
          preguntas = traer_preguntas(self, proceso_pt)
+         desviaciones = traer_desviaciones(self, proceso_pt)
+         sla = self.sla.currentText()
          print(analyst, campaign, supervisor, siniestro, fecha_evaluacion, proceso_pt, tipo_evaluacion, evaluador)
          resultado= 0
-         for fila, pregunta in enumerate(preguntas):
+         evaluacionAplica = True
+
+         for filaPregunta, pregunta in enumerate(preguntas):
                 #muestra la pregunta (mismo orden en el que las trae, asi que no hay pierde)
-                print(str(pregunta[1]) + " (Valor " + str(pregunta[2]) + " puntos)")
+                #print(analyst, campaign, supervisor, siniestro, fecha_evaluacion, proceso_pt, tipo_evaluacion, evaluador)
+                #print(str(pregunta[0]) + " (Valor " + str(pregunta[2]) + " puntos)")
 
                 #Se trae el combobox con SI o NO
-                res= self.space_preguntas.cellWidget(fila, 1).currentText()
-                print(self.space_preguntas.cellWidget(fila, 1).currentText())
+                res= self.space_preguntas.cellWidget(filaPregunta, 1).currentText()
+                #print(self.space_preguntas.cellWidget(filaPregunta, 1).currentText())
                 if res == 'Si':
                      resultado= resultado + int(pregunta[2])
 
                 #Se trae el textedit con los comentarios 
-                print(self.space_preguntas.cellWidget(fila, 2).text())
-         print("RESULTADO DE LA EVALUACION: " + str(resultado))
+                #print(self.space_preguntas.cellWidget(filaPregunta, 2).text())
+        
+         for filaDesviacion, desviacion in enumerate(desviaciones):
+                #print(analyst, campaign, supervisor, siniestro, fecha_evaluacion, proceso_pt, tipo_evaluacion, evaluador)
+                #print(str(desviacion[0]))
+                res2= self.space_desviaciones.cellWidget(filaDesviacion, 1).currentText()
+                if res2 == 'Si':
+                     evaluacionAplica = False
+                     break
+        
+         if evaluacionAplica == False:
+              resultado = 0
+         
+         for filaInsertar, pregunta in enumerate(preguntas):
+                preguntaInsertar = pregunta[1]
+                resInsertar = self.space_preguntas.cellWidget(filaInsertar, 1).currentText()
+                comentario = self.space_preguntas.cellWidget(filaInsertar, 2).text()
+                insertar_cosas(self, id_evaluacion, analyst, siniestro, fecha_evaluacion, tipo_evaluacion, proceso_pt, evaluador, preguntaInsertar, resInsertar,sla, comentario, resultado)
+
+         for desvInsertar, desviacion2 in enumerate(desviaciones):
+                preguntaInsertar = desviacion2[1]
+                resInsertar = self.space_desviaciones.cellWidget(desvInsertar, 1).currentText()
+                comentario = self.space_desviaciones.cellWidget(desvInsertar, 2).text()
+                insertar_cosas(self, id_evaluacion, analyst, siniestro, fecha_evaluacion, tipo_evaluacion, proceso_pt, evaluador, preguntaInsertar, resInsertar,sla, comentario, resultado)
+    
+         print("RESULTADO DE LA EVALUACION: " + str(resultado) + " SLA: " + sla + "ID EVALUACION: " + str(id_evaluacion))
+         QMessageBox.information(self, "EVALUACION: ", "EVALUACIOJN REGISTRADA CORRECTAMENTE")
 
 if __name__ == '__main__':
     app = QApplication([])

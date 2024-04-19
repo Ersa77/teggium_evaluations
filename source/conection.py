@@ -96,10 +96,16 @@ def traer_desviaciones(self, proceso_pt):
                     AND (tipo_pregunta = 'Errores operativos' OR tipo_pregunta= 'Desviaciones graves')""", (proceso_pt,))
      resultados= cursor.fetchall()
      return resultados
-
-def insertar_cosas(self, id_evaluacion,analyst, siniestro, fecha_evaluacion, tipo_evaluacion, proceso, evaluadora, pregunta, respuesta, sla, comentario):
+def obtenerEvaluacionID(self):
      cursor.execute("""
-                    INSERT INTO respuestas (id_evaluacion,id_campaign, id_supervisor, id_user, no_siniestro, fecha_evaluacion, id_tipo, id_proceso, id_aud, id_pregunta, respuesta, sla, comentarios)
+                    SELECT MAX(id_evaluacion) AS "ID_EVALUACION" FROM respuestas""")
+     evaluacionID= cursor.fetchall()
+     numero = evaluacionID[0][0] if evaluacionID else None
+     return numero
+
+def insertar_cosas(self, id_evaluacion,analyst, siniestro, fecha_evaluacion, tipo_evaluacion, proceso, evaluadora, pregunta, respuesta, sla, comentario, resultado):
+     cursor.execute("""
+                    INSERT INTO respuestas (id_evaluacion,id_campaign, id_supervisor, id_user, no_siniestro, fecha_evaluacion, id_tipo, id_proceso, id_aud, id_pregunta, respuesta, sla, comentarios, resultado_final)
                     VALUES (?,
                          (
                          SELECT id_campaign 
@@ -142,7 +148,7 @@ def insertar_cosas(self, id_evaluacion,analyst, siniestro, fecha_evaluacion, tip
                                                   FROM procesos_pt
                                                   WHERE nombre_proceso = ?)
                          ),
-                    --RESPUESTA, SLA, COMENTARIO
-                         ?, ?, ?)""",\
-                    (id_evaluacion,analyst, analyst, analyst, siniestro, fecha_evaluacion, tipo_evaluacion, proceso, evaluadora, pregunta, proceso, respuesta, sla, comentario))
+                    --RESPUESTA, SLA, COMENTARIO, RESULTADO FINAL
+                         ?, ?, ?, ?)""",\
+                    (id_evaluacion,analyst, analyst, analyst, siniestro, fecha_evaluacion, tipo_evaluacion, proceso, evaluadora, pregunta, proceso, respuesta, sla, comentario, resultado))
      conexion.commit()
