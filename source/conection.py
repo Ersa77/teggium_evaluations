@@ -152,3 +152,78 @@ def insertar_cosas(self, id_evaluacion,analyst, siniestro, fecha_evaluacion, tip
                          ?, ?, ?, ?)""",\
                     (id_evaluacion,analyst, analyst, analyst, siniestro, fecha_evaluacion, tipo_evaluacion, proceso, evaluadora, pregunta, proceso, respuesta, sla, comentario, resultado))
      conexion.commit()
+
+def traerPromedios(self):
+     cursor.execute("""
+                    SELECT name_anaylst AS "EJECUTIVO", actividad as "ACTIVIDAD", avg(resultado_final) AS "PROMEDIO"
+                    FROM respuestas
+                    JOIN pt_anaylst_teggium USING (id_user)
+                    JOIN procesos_pt USING (id_proceso)
+                    GROUP BY name_anaylst
+                    ORDER BY actividad ASC
+                    """)
+     resultados= cursor.fetchall()
+     return resultados
+
+def traerPromedioGeneral(self):
+     cursor.execute("""
+                    SELECT avg(resultado_final) AS "PROMEDIO GENERAL"
+                    FROM respuestas
+                    """)
+     resultado= cursor.fetchone()
+     prom= resultado[0]
+     return prom
+
+def traerTotalEvaluaciones(self):
+     cursor.execute("""
+                    SELECT count(DISTINCT id_evaluacion) AS "TOTAL EVALUACIONES" 
+                    FROM respuestas
+                    """)
+     resultado= cursor.fetchone()
+     totalEva = resultado[0]
+     return totalEva
+
+def traerTotalCeros(self):
+     cursor.execute("""
+                    SELECT count(DISTINCT id_evaluacion) AS "CEROS" 
+                    FROM respuestas 
+                    WHERE id_tipo = 2
+                    """)
+     resultado= cursor.fetchone()
+     totalCeros = resultado[0]
+     return totalCeros
+
+def traerErrores(self, proceso_pt):
+     cursor.execute("""
+                    SELECT preguntas.pregunta, COUNT(*) AS veces_no
+                    FROM respuestas
+                    JOIN preguntas ON respuestas.id_pregunta = preguntas.id_pregunta
+                    WHERE respuestas.respuesta = 'No' 
+                    AND preguntas.id_proceso = (SELECT id_proceso FROM procesos_pt WHERE nombre_proceso = ?) 
+                    AND (preguntas.id_tipo_pregunta = 1 OR preguntas.id_tipo_pregunta = 2)
+                    GROUP BY preguntas.id_pregunta, preguntas.pregunta
+                    ORDER BY COUNT(*) DESC;
+                    """, (proceso_pt,))
+     resultados= cursor.fetchall()
+     return resultados
+
+def traerGraves(self, proceso_pt):
+     cursor.execute("""
+                    SELECT preguntas.pregunta, COUNT(*) AS veces_no
+                    FROM respuestas
+                    JOIN preguntas ON respuestas.id_pregunta = preguntas.id_pregunta
+                    WHERE respuestas.respuesta = 'Si' 
+                    AND preguntas.id_proceso = (SELECT id_proceso FROM procesos_pt WHERE nombre_proceso = ?)
+                    AND (preguntas.id_tipo_pregunta = 3 OR preguntas.id_tipo_pregunta = 4)
+                    GROUP BY preguntas.id_pregunta, preguntas.pregunta
+                    ORDER BY COUNT(*) DESC;
+                    """, (proceso_pt,))
+     resultados = cursor.fetchall()
+     return resultados
+
+def llenarFiltros(self):
+     self.filtroProceso.addItem("-Seleccionar-",0)
+     cursor.execute("SELECT nombre_proceso FROM procesos_pt;")
+     resultados= cursor.fetchall()
+     for resultado in resultados:
+          self.filtroProceso.addItem(resultado[0])

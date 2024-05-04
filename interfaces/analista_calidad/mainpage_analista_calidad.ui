@@ -72,85 +72,6 @@ font: 18pt &quot;Arial&quot;;
     <number>1</number>
    </property>
   </widget>
-  <widget class="QLabel" name="options_label_1">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>150</y>
-     <width>151</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>EVALUACIONES</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="new_evaluation">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>190</y>
-     <width>241</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>EVALUAR EJECUTIVO</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="view_evaluation">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>260</y>
-     <width>341</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CONSULTAR REGISTRO DE 
-EVALUACIONES POR EJECUTIVO</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="options_label_2">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>350</y>
-     <width>131</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>DASHBOARD</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="view_results">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>390</y>
-     <width>341</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>VER DESEMPEÑO POR CAMPAÑA</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="view_general_results">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>460</y>
-     <width>291</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>VER DESEMPEÑO GENERAL</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="logout_button">
    <property name="geometry">
     <rect>
@@ -178,6 +99,84 @@ EVALUACIONES POR EJECUTIVO</string>
    </property>
    <property name="pixmap">
     <pixmap>../../media/imagenes/logo.jpg</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="options_label_1">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>190</y>
+     <width>149</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>EVALUACIONES</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="new_evaluation">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>240</y>
+     <width>221</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>EVALUAR EJECUTIVO</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="retro">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>240</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RETROALIMENTACIÓN</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="desglose">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>330</y>
+     <width>231</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>DESEMPEÑO GENERAL</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="openDash">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>400</y>
+     <width>191</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>VER TABLERO</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="muestreo">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>240</y>
+     <width>151</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>MUESTREO</string>
    </property>
   </widget>
  </widget>
