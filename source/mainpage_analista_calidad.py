@@ -1,6 +1,5 @@
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox
-#import sqlite3
 
 class Logout(QWidget):
     def __init__(self, usuario, rol):
@@ -9,9 +8,9 @@ class Logout(QWidget):
         self.setWindowTitle('PAGINA PRINCIPAL')
         self.welcome_label_analista_calidad.setText('BIENVENID@\n'+ usuario + '\n' + rol)
         self.new_evaluation.clicked.connect(self.add_evaluation)
-        self.view_evaluation.clicked.connect(self.en_construccion)
-        self.view_results.clicked.connect(self.en_construccion)
-        self.view_general_results.clicked.connect(self.en_construccion)
+        self.retro.clicked.connect(self.en_construccion)
+        self.muestreo.clicked.connect(self.en_construccion)
+        self.openDash.clicked.connect(self.showDash)
         self.logout_button.clicked.connect(self.logout)
 
     def logout(self):
@@ -24,6 +23,11 @@ class Logout(QWidget):
         from new_evaluation import new_evaluation
         self.nueva_evaluacion = new_evaluation()
         self.nueva_evaluacion.show()
+    
+    def showDash(self):
+        from showDash import dashBoard
+        self.dashboardo = dashBoard()
+        self.dashboardo.show()
     
     def en_construccion(self):
         QMessageBox.information(self,"OPCION", "NO DISPONIBLE TEMPORALMENTE :D")

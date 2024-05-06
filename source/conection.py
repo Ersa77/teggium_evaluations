@@ -222,7 +222,7 @@ def traerGraves(self, proceso_pt):
      return resultados
 
 def llenarFiltros(self):
-     self.filtroProceso.addItem("-Seleccionar-",0)
+     #self.filtroProceso.addItem("-Seleccionar-",0)
      cursor.execute("SELECT nombre_proceso FROM procesos_pt;")
      resultados= cursor.fetchall()
      for resultado in resultados:
