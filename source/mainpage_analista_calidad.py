@@ -8,7 +8,7 @@ class Logout(QWidget):
         self.setWindowTitle('PAGINA PRINCIPAL')
         self.welcome_label_analista_calidad.setText('BIENVENID@\n'+ usuario + '\n' + rol)
         self.new_evaluation.clicked.connect(self.add_evaluation)
-        self.retro.clicked.connect(self.en_construccion)
+        self.retro.clicked.connect(self.showRetro)
         self.muestreo.clicked.connect(self.en_construccion)
         self.openDash.clicked.connect(self.showDash)
         self.logout_button.clicked.connect(self.logout)
@@ -23,6 +23,11 @@ class Logout(QWidget):
         from new_evaluation import new_evaluation
         self.nueva_evaluacion = new_evaluation()
         self.nueva_evaluacion.show()
+    
+    def showRetro(self):
+        from showAnalystData import dashUser
+        self.dashUsuarios = dashUser()
+        self.dashUsuarios.show()
     
     def showDash(self):
         from showDash import dashBoard

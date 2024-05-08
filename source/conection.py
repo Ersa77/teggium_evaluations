@@ -227,3 +227,108 @@ def llenarFiltros(self):
      resultados= cursor.fetchall()
      for resultado in resultados:
           self.filtroProceso.addItem(resultado[0])
+
+#Esta función trae el listado de los usuarios que han hecho evaluaciones, si las han hecho, apareceran aqui
+#aqui el for llena el combobox espcifico, por lo que solo funcionara en ese combobox
+def visualizarUsuario(self):
+     cursor.execute("""
+                    SELECT DISTINCT name_anaylst
+                    FROM respuestas
+                    JOIN pt_anaylst_teggium USING (id_user)""")
+     usuariosFiltro= cursor.fetchall()
+     #self.userFilter.addItem('-Seleccionar-',0)
+     for resultado in usuariosFiltro:
+          self.userFilter.addItem(resultado[0])
+
+#Esta función nos trae el promedio del usuario especifico  
+def promedioUsuario(self, usuario):
+     cursor.execute("""
+                    SELECT avg(resultado_final) AS "PROMEDIO"
+                    FROM respuestas
+                    JOIN pt_anaylst_teggium USING (id_user)
+                    JOIN procesos_pt USING (id_proceso)
+                    WHERE name_anaylst = ?
+                    """, (usuario,))
+     resultado= cursor.fetchone()
+     promUser = resultado[0]
+     return promUser
+
+#Esta función nos trae la cantidad de evaluaciones que tiene un usuario especifico
+def numEvaluacionesUser(self, usuario):
+     cursor.execute("""
+                    SELECT count(DISTINCT id_evaluacion) AS "TOTAL EVALUACIONES" 
+                    FROM respuestas
+                    JOIN pt_anaylst_teggium USING (id_user)
+                    WHERE name_anaylst = ?
+                    """, (usuario,))
+     numEva= cursor.fetchone()
+     if numEva is not None:
+          return numEva[0]
+     else:
+          return 0
+
+#Esta funcion nos trae el listado de siniestros evaluados segun el usuario especificado
+#y va llenando el combobox para filtar
+def listadoEvaluacionesUser(self, usuario):
+     cursor.execute("""
+                    SELECT DISTINCT
+                    no_siniestro
+                    FROM respuestas
+                    JOIN pt_anaylst_teggium USING (id_user)
+                    JOIN tipos_evaluaciones USING (id_tipo)
+                    JOIN procesos_pt USING (id_proceso)
+                    JOIN preguntas USING (id_pregunta)
+                    WHERE name_anaylst = ?
+                    """, (usuario,))
+     evas= cursor.fetchall()
+     for eva in evas:
+          self.siniestroFilter.addItem(eva[0])
+
+#Esta función nos trae el promedio de la evaluacion especifica que estamos consultando
+def promedioEvaEspecifica(self, usuario, siniestro):
+     cursor.execute("""
+                    SELECT DISTINCT resultado_final AS "RESULTADO"
+                    FROM respuestas
+                    JOIN pt_anaylst_teggium USING (id_user)
+                    JOIN procesos_pt USING (id_proceso)
+                    WHERE name_anaylst = ?
+                    AND no_siniestro = ?
+                    """, (usuario, siniestro))
+     resultado= cursor.fetchone()
+     if resultado is not None:
+          promEva= resultado[0]
+          return promEva
+     else:
+          return 0
+
+#Esta función nos traera las preguntas de la evaluación especifica que estamos mostrando
+def mostrarEvasPorUsuario(self, usuario, siniestro):
+     cursor.execute("""
+                    SELECT pregunta AS "PREGUNTA", respuesta AS "RESPUESTA"
+                    FROM respuestas
+                    JOIN pt_anaylst_teggium USING (id_user)
+                    JOIN tipos_evaluaciones USING (id_tipo)
+                    JOIN procesos_pt USING (id_proceso)
+                    JOIN preguntas USING (id_pregunta)
+                    WHERE name_anaylst = ?
+                    AND no_siniestro = ?
+                    """, (usuario,siniestro))
+     resultados= cursor.fetchall()
+     return resultados
+
+#Esta funcion consulta la pregunta y comentario de la respectiva pregunta, omitiendo los vacios,
+#generando asi una retroalimentación segun la evaluadora
+def retroalimentacion(self, usuario, siniestro):
+     cursor.execute("""
+                    SELECT pregunta, comentarios
+                    FROM respuestas
+                    JOIN pt_anaylst_teggium USING (id_user)
+                    JOIN tipos_evaluaciones USING (id_tipo)
+                    JOIN procesos_pt USING (id_proceso)
+                    JOIN preguntas USING (id_pregunta)
+                    WHERE name_anaylst = ?
+                    AND no_siniestro = ?
+                    AND comentarios != ''
+                    """, (usuario, siniestro))
+     resultados = cursor.fetchall()
+     return resultados
