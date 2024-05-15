@@ -140,8 +140,9 @@ class cuestionario(QMainWindow):
                 comentario = self.space_desviaciones.cellWidget(desvInsertar, 2).text()
                 insertar_cosas(self, id_evaluacion, analyst, siniestro, fecha_evaluacion, tipo_evaluacion, proceso_pt, evaluador, preguntaInsertar, resInsertar,sla, comentario, resultado)
     
-         print("RESULTADO DE LA EVALUACION: " + str(resultado) + " SLA: " + sla + "ID EVALUACION: " + str(id_evaluacion))
+         #print("RESULTADO DE LA EVALUACION: " + str(resultado) + " SLA: " + sla + "ID EVALUACION: " + str(id_evaluacion))
          QMessageBox.information(self, "EVALUACION: ", "EVALUACIOJN REGISTRADA CORRECTAMENTE")
+         self.close()
 
 if __name__ == '__main__':
     app = QApplication([])

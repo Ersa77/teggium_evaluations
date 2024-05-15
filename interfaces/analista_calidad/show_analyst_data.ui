@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>993</width>
-    <height>779</height>
+    <width>1141</width>
+    <height>682</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -81,8 +81,8 @@ font: 18pt &quot;Arial&quot;;
     <rect>
      <x>20</x>
      <y>300</y>
-     <width>641</width>
-     <height>441</height>
+     <width>661</width>
+     <height>371</height>
     </rect>
    </property>
   </widget>
@@ -125,8 +125,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QPushButton" name="exit">
    <property name="geometry">
     <rect>
-     <x>820</x>
-     <y>680</y>
+     <x>970</x>
+     <y>620</y>
      <width>141</width>
      <height>51</height>
     </rect>
@@ -182,9 +182,9 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="retro">
    <property name="geometry">
     <rect>
-     <x>690</x>
+     <x>700</x>
      <y>300</y>
-     <width>261</width>
+     <width>251</width>
      <height>331</height>
     </rect>
    </property>
