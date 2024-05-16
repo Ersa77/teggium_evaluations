@@ -279,6 +279,7 @@ def listadoEvaluacionesUser(self, usuario):
                     JOIN procesos_pt USING (id_proceso)
                     JOIN preguntas USING (id_pregunta)
                     WHERE name_anaylst = ?
+                    ORDER BY fecha_evaluacion DESC
                     """, (usuario,))
      evas= cursor.fetchall()
      for eva in evas:
