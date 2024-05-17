@@ -1,11 +1,12 @@
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox, QLineEdit
-import sqlite3
+from PyQt5.QtGui import QIcon
 
 class Login(QWidget):
     def __init__(self):
         super().__init__()
         loadUi("interfaces/log_in.ui", self)
+        self.setWindowIcon(QIcon('media/icons/icon_app.ico'))
         self.setWindowTitle('INICIAR SESION')
         self.log_in_button.clicked.connect(self.login)
         self.show_pass.stateChanged.connect(self.show_pass_uwu)

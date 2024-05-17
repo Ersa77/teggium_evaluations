@@ -1,7 +1,7 @@
 #Importamos lo que necesitamos para trabajar:
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QApplication
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtGui import QStandardItemModel, QIcon, QStandardItem
 from PyQt5.uic import loadUi
 from conection import visualizarUsuario, promedioUsuario, numEvaluacionesUser, listadoEvaluacionesUser, promedioEvaEspecifica, mostrarEvasPorUsuario, retroalimentacion
 
@@ -12,6 +12,8 @@ class dashUser(QWidget):
         super().__init__()
         #Cargar nuestro formulario
         loadUi('interfaces/analista_calidad/show_analyst_data.ui', self)
+        self.setWindowIcon(QIcon('media/icons/icon_app.ico'))
+        self.setWindowTitle('DESEMPEÑO POR EJECUTIVO')
         #llenar combobox de usuarios
         visualizarUsuario(self)
         #Cuando se cambie el combobox de usuario, actualizar el promedio, cantidad de evaluaciones y el llenado del filtro de siniestros

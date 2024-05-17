@@ -5,6 +5,7 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QDate
 from functools import partial
 from conection import *
+from PyQt5.QtGui import QIcon
 fecha_evaluacion= QDate.currentDate()
 
 #CLASE (VENTANA) PARA NUEVA EVALUACIÓN
@@ -14,6 +15,8 @@ class new_evaluation(QMainWindow):
     def __init__(self):
         super().__init__()
         loadUi('interfaces/analista_calidad/new_evaluation.ui', self)
+        self.setWindowIcon(QIcon('media/icons/icon_app.ico'))
+        self.setWindowTitle('NUEVA EVALUACION')
         self.evaluation_date.setDate(fecha_evaluacion)
         self.campania.addItem("-Seleccionar-",0)
         self.supervisor.addItem("-Seleccionar-",0)

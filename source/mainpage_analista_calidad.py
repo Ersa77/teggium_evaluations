@@ -1,10 +1,12 @@
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox
+from PyQt5.QtGui import QIcon
 
 class Logout(QWidget):
     def __init__(self, usuario, rol):
         super().__init__()
         loadUi("interfaces/analista_calidad/mainpage_analista_calidad.ui", self)
+        self.setWindowIcon(QIcon('media/icons/icon_app.ico'))
         self.setWindowTitle('PAGINA PRINCIPAL')
         self.welcome_label_analista_calidad.setText('BIENVENID@\n'+ usuario + '\n' + rol)
         self.new_evaluation.clicked.connect(self.add_evaluation)

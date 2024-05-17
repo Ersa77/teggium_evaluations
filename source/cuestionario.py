@@ -1,12 +1,15 @@
 from PyQt5.QtWidgets import QApplication, QLineEdit, QMessageBox, QTableWidgetItem,QMainWindow, QComboBox
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
+from PyQt5.QtGui import QIcon
 from conection import traer_preguntas, traer_desviaciones, obtenerEvaluacionID, insertar_cosas
 
 class cuestionario(QMainWindow):
     def __init__(self, campaign, analyst, supervisor, siniestro, fecha_evaluacion, proceso_pt, tipo_evaluacion, evaluador, preguntas, desviaciones):
         super().__init__()
         loadUi('interfaces/analista_calidad/cuestionario.ui', self)
+        self.setWindowIcon(QIcon('media/icons/icon_app.ico'))
+        self.setWindowTitle('CUESTIONARIO')
         self.usuario_evaluado.setText("Usuario Evaluado: " + analyst)
         self.proceso_evaluado.setText("Proceso Evaluado: " + proceso_pt)
         self.tipo_evaluacion.setText("Tipo de Evaluación: " + tipo_evaluacion)

@@ -1,6 +1,6 @@
 #Primero importamos las librerias a utilizar (sinceramente las fui importando conforme las fui necesitando XD)
 from PyQt5.QtWidgets import QWidget, QApplication
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QIcon
 from PyQt5.uic import loadUi
 from conection import traerPromedios, traerPromedioGeneral, traerTotalEvaluaciones, traerTotalCeros, llenarFiltros, traerErrores, traerGraves
 
@@ -11,6 +11,8 @@ class dashBoard(QWidget):
         super().__init__()
         #Cargamos nuestro formulario
         loadUi('interfaces/analista_calidad/dash.ui', self)
+        self.setWindowIcon(QIcon('media/icons/icon_app.ico'))
+        self.setWindowTitle('DESEMPEÑO GENERAL')
 
         #Asignar la función para salir al boton de SALIR
         self.exit.clicked.connect(self.closeDash)
