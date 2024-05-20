@@ -156,6 +156,9 @@ font: 10pt &quot;Arial&quot;;
       <height>22</height>
      </rect>
     </property>
+    <property name="displayFormat">
+     <string>yyyy-MM-dd</string>
+    </property>
    </widget>
    <widget class="QLabel" name="evaluation_date_2">
     <property name="geometry">
