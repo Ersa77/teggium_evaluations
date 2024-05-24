@@ -50,7 +50,7 @@ class new_evaluation(QMainWindow):
         analyst= self.analyst_name.currentText()
         supervisor= self.supervisor.currentText()
         siniestro= self.no_siniestro.text()
-        fecha_evaluacion= self.evaluation_date.date().toString("dd-MM-yyyy")
+        fecha_evaluacion= self.evaluation_date.date().toString("yyyy-MM-dd")
         tipo_evaluacion= self.tipo_evaluacion.currentText()
         proceso_pt= self.activity.currentText()
         evaluador= self.analista_calidad.currentText()

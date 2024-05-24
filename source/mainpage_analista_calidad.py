@@ -11,7 +11,7 @@ class Logout(QWidget):
         self.welcome_label_analista_calidad.setText('BIENVENID@\n'+ usuario + '\n' + rol)
         self.new_evaluation.clicked.connect(self.add_evaluation)
         self.retro.clicked.connect(self.showRetro)
-        self.muestreo.clicked.connect(self.en_construccion)
+        self.systemSettings.clicked.connect(self.showSettings)
         self.openDash.clicked.connect(self.showDash)
         self.logout_button.clicked.connect(self.logout)
 
@@ -35,6 +35,11 @@ class Logout(QWidget):
         from showDash import dashBoard
         self.dashboardo = dashBoard()
         self.dashboardo.show()
+
+    def showSettings(self):
+        from settings import settings
+        self.settings = settings()
+        self.settings.show()
     
     def en_construccion(self):
         QMessageBox.information(self,"OPCION", "NO DISPONIBLE TEMPORALMENTE :D")

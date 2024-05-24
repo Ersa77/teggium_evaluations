@@ -195,7 +195,7 @@ font: 18pt &quot;Arial&quot;;
     <string>GESTION DEL SISTEMA</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="systemSettings">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -203,28 +203,12 @@ font: 18pt &quot;Arial&quot;;
     <rect>
      <x>40</x>
      <y>460</y>
-     <width>231</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>GESTIONAR USUARIOS</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>460</y>
      <width>241</width>
      <height>41</height>
     </rect>
    </property>
    <property name="text">
-    <string>GESTIONAR CAMPAÑAS</string>
+    <string>GESTIÓN DE USUARIOS</string>
    </property>
   </widget>
  </widget>

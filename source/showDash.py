@@ -2,7 +2,7 @@
 from PyQt5.QtWidgets import QWidget, QApplication
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QIcon
 from PyQt5.uic import loadUi
-from conection import traerPromedios, traerPromedioGeneral, traerTotalEvaluaciones, traerTotalCeros, llenarFiltros, traerErrores, traerGraves
+from conection import traerPromedios, traerPromedioGeneral, traerTotalEvaluaciones, traerTotalCeros, llenarFiltros, traerErrores, traerGraves, traerPromedioMensual
 
 #Creamos la clase main para llamarla desde la pagina principal de nuestro programa
 class dashBoard(QWidget):
@@ -30,6 +30,9 @@ class dashBoard(QWidget):
         #Llamamos a la función para setear promedio general, conteo de evaluaciones y ceros:
         promedioGral = traerPromedioGeneral(self)
         self.promedioGeneral.setText('PROMEDIO GENERAL: ' + str(round(promedioGral,2)))
+        #Traer promedio mensual:
+        promedioMensual = traerPromedioMensual(self)
+        self.promedioMensual.setText('PROMEDIO DEL MES: ' + str(round(promedioMensual,2)))
         #setear promedio general, conteo de evaluaciones y ceros:
         evaluaciones = traerTotalEvaluaciones(self)
         self.totalEvaluaciones.setText('TOTAL EVALUACIONES: ' + str(evaluaciones))

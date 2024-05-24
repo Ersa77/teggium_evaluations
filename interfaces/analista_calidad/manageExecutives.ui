@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>313</width>
+    <height>395</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton {background-color: rgb(0, 255, 255);
+font: 14pt &quot;Arial&quot;;
+border-radius: 10px;
+border-width: 2px;
+hover: rgb(212, 255, 252)
+}
+
+QPushButton:hover {
+background-color: rgb(100, 255, 255);
+}
+
+QPushButton:pressed {
+background-color: rgb(27, 198, 186)
+}
+
+QLabel{
+font: 14pt &quot;Arial&quot;;
+}
+
+#exitButton {background-color: rgb(255, 80, 80);
+font: 14pt &quot;Arial&quot;;
+border-radius: 10px;
+border-width: 2px;
+hover: rgb(212, 255, 252)
+}
+
+#exitButton:hover {
+background-color: rgb(255, 136, 136);
+}
+
+#exitButton:pressed {
+background-color: rgb(186, 3, 3)
+}
+
+#welcome_label_analista_calidad{
+font: 18pt &quot;Arial&quot;;
+}
+</string>
+  </property>
+  <widget class="QLabel" name="executivLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>EJECUTIVOS</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="createUserButon">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>100</y>
+     <width>211</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CREAR USUARIO</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="updateUserButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>160</y>
+     <width>211</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>MODIFICAR USUARIO</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="deleteUserButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>211</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ELIMINAR USUARIO</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="exitButton">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>320</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>SALIR</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

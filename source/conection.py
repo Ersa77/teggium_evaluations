@@ -174,6 +174,17 @@ def traerPromedioGeneral(self):
      prom= resultado[0]
      return prom
 
+def traerPromedioMensual(self):
+     cursor.execute("""
+                    SELECT DISTINCT avg(resultado_final) AS "PROMEDIO MENSUAL"
+                    FROM respuestas
+                    WHERE strftime('%m', strftime('%Y-%m-%d', fecha_evaluacion)) = strftime('%m', 'now')
+                    AND strftime('%Y', strftime('%Y-%m-%d', fecha_evaluacion)) = strftime('%Y', 'now');
+                    """)
+     resultado= cursor.fetchone()
+     promMen= resultado[0]
+     return promMen
+
 def traerTotalEvaluaciones(self):
      cursor.execute("""
                     SELECT count(DISTINCT id_evaluacion) AS "TOTAL EVALUACIONES" 
@@ -187,7 +198,7 @@ def traerTotalCeros(self):
      cursor.execute("""
                     SELECT count(DISTINCT id_evaluacion) AS "CEROS" 
                     FROM respuestas 
-                    WHERE id_tipo = 2
+                    WHERE resultado_final = 0
                     """)
      resultado= cursor.fetchone()
      totalCeros = resultado[0]
