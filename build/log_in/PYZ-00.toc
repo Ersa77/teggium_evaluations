@@ -468,6 +468,10 @@
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.12_3.12.1008.0_x64__qbz5n2kfra8p0\\Lib\\selectors.py',
    'PYMODULE'),
+  ('settings',
+   'C:\\Users\\TI-SOP-305\\Documents\\ERSO\\REPORTES\\TEGGIUM\\MIS\\PROYECTOS\\PROYECTO '
+   'EVALUACION USUARIOS\\MARK IV\\source\\settings.py',
+   'PYMODULE'),
   ('showAnalystData',
    'C:\\Users\\TI-SOP-305\\Documents\\ERSO\\REPORTES\\TEGGIUM\\MIS\\PROYECTOS\\PROYECTO '
    'EVALUACION USUARIOS\\MARK IV\\source\\showAnalystData.py',
