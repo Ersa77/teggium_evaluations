@@ -20,13 +20,14 @@ def usuario_analista_evaluador(username):
     nombre= resultado[0]
     rol= resultado[1]
     return nombre, rol
-
+#Funcion para llenar el combobox de las campañas
 def llenar_campaings(self):
         cursor.execute("SELECT name_campaign FROM campaigns;")
         resultados= cursor.fetchall()
         for resultado in resultados:
             self.campania.addItem(resultado[0])
 
+#Funcion para llenar el combobox de los supervisores usando como filtro la campaña
 def llenar_supervisor(self, campaign):
      self.supervisor.addItem("-Seleccionar-",0)
      cursor.execute("""
@@ -37,6 +38,7 @@ def llenar_supervisor(self, campaign):
      for resultado in resultados:
           self.supervisor.addItem(resultado[0])
 
+#Funcion para llenar el combobox de los analistas usando como filtro la campaña y supervisor
 def llenar_analistas(self, campaign, supervisor):
      self.analyst_name.addItem("-Seleccionar-", 0)
      cursor.execute("""
@@ -49,6 +51,7 @@ def llenar_analistas(self, campaign, supervisor):
      for resultado in resultados:
           self.analyst_name.addItem(resultado[0])
 
+#Funcion para llenar el combobox de los tipos de evaluaciones
 def llenar_tipos_evaluaciones(self):
      self.tipo_evaluacion.addItem("-Seleccionar-",0)
      cursor.execute("SELECT tipo_evaluacion FROM tipos_evaluaciones")
@@ -56,13 +59,15 @@ def llenar_tipos_evaluaciones(self):
      for resultado in resultados:
           self.tipo_evaluacion.addItem(resultado[0])
 
+#Funcion para llenar el combobox de los procesos para evaluar
 def llenar_activity(self):
      self.activity.addItem("-Seleccionar-",0)
      cursor.execute("SELECT nombre_proceso FROM procesos_pt;")
      resultados= cursor.fetchall()
      for resultado in resultados:
           self.activity.addItem(resultado[0])
-        
+
+#Funcion para llenar el combobox de los usuarios evaluadores
 def llenar_evaluador(self):
      self.analista_calidad.addItem("-Seleccionar-",0)
      cursor.execute("SELECT name_aud FROM auditores_calidad WHERE id_rol = 1;")
@@ -75,6 +80,7 @@ def llenar_evaluador(self):
      for resultado in resultados:
           self.analista_calidad.addItem(resultado[0])
 
+#Funcion para traer las preguntas para el formulario, usando como filtro el nombre del proceso
 def traer_preguntas(self, proceso_pt):
      cursor.execute("""
                     SELECT id_pregunta, pregunta, ponderacion, tipo_pregunta
@@ -86,6 +92,7 @@ def traer_preguntas(self, proceso_pt):
      resultados= cursor.fetchall()
      return resultados
 
+#Funcion para consultar las desviaciones, que son un grupo de preguntas
 def traer_desviaciones(self, proceso_pt):
      cursor.execute("""
                     SELECT id_pregunta, pregunta, ponderacion, tipo_pregunta
@@ -96,6 +103,8 @@ def traer_desviaciones(self, proceso_pt):
                     AND (tipo_pregunta = 'Errores operativos' OR tipo_pregunta= 'Desviaciones graves')""", (proceso_pt,))
      resultados= cursor.fetchall()
      return resultados
+
+#Esta funcion es para consultar el ID de la evaluación y asi consultar sus preguntas y respuestas
 def obtenerEvaluacionID(self):
      cursor.execute("""
                     SELECT MAX(id_evaluacion) AS "ID_EVALUACION" FROM respuestas""")
@@ -103,6 +112,7 @@ def obtenerEvaluacionID(self):
      numero = evaluacionID[0][0] if evaluacionID else None
      return numero
 
+#Esta funcion es para una consulta que inserta las respuestas registradas en el formulario a la tabla "respuestas"
 def insertar_cosas(self, id_evaluacion,analyst, siniestro, fecha_evaluacion, tipo_evaluacion, proceso, evaluadora, pregunta, respuesta, sla, comentario, resultado):
      cursor.execute("""
                     INSERT INTO respuestas (id_evaluacion,id_campaign, id_supervisor, id_user, no_siniestro, fecha_evaluacion, id_tipo, id_proceso, id_aud, id_pregunta, respuesta, sla, comentarios, resultado_final)
@@ -153,6 +163,7 @@ def insertar_cosas(self, id_evaluacion,analyst, siniestro, fecha_evaluacion, tip
                     (id_evaluacion,analyst, analyst, analyst, siniestro, fecha_evaluacion, tipo_evaluacion, proceso, evaluadora, pregunta, proceso, respuesta, sla, comentario, resultado))
      conexion.commit()
 
+#Esta funcion es para consultar el promedio general de cada ejecutivo
 def traerPromedios(self):
      cursor.execute("""
                     SELECT name_anaylst AS "EJECUTIVO", actividad as "ACTIVIDAD", avg(resultado_final) AS "PROMEDIO"
@@ -165,6 +176,7 @@ def traerPromedios(self):
      resultados= cursor.fetchall()
      return resultados
 
+#Esta funcion es para consultar el promedio general
 def traerPromedioGeneral(self):
      cursor.execute("""
                     SELECT avg(resultado_final) AS "PROMEDIO GENERAL"
@@ -174,6 +186,7 @@ def traerPromedioGeneral(self):
      prom= resultado[0]
      return prom
 
+#Esta funcion es para consultar el promedio del mes actual
 def traerPromedioMensual(self):
      cursor.execute("""
                     SELECT DISTINCT avg(resultado_final) AS "PROMEDIO MENSUAL"
@@ -185,6 +198,7 @@ def traerPromedioMensual(self):
      promMen= resultado[0]
      return promMen
 
+#Esta funcion es para contar el total de evaluaciones registradas
 def traerTotalEvaluaciones(self):
      cursor.execute("""
                     SELECT count(DISTINCT id_evaluacion) AS "TOTAL EVALUACIONES" 
@@ -194,6 +208,7 @@ def traerTotalEvaluaciones(self):
      totalEva = resultado[0]
      return totalEva
 
+#Esta funcion es para consultar todas las evaluaciones que tuvieron resultado cero 
 def traerTotalCeros(self):
      cursor.execute("""
                     SELECT count(DISTINCT id_evaluacion) AS "CEROS" 
@@ -204,6 +219,7 @@ def traerTotalCeros(self):
      totalCeros = resultado[0]
      return totalCeros
 
+#Esta funcion es para consultar el conteo de los errores operativos registrados en las evaluaciones
 def traerErrores(self, proceso_pt):
      cursor.execute("""
                     SELECT preguntas.pregunta, COUNT(*) AS veces_no
@@ -218,6 +234,7 @@ def traerErrores(self, proceso_pt):
      resultados= cursor.fetchall()
      return resultados
 
+#Esta funcion es para consultar las desviaciones graves registradas en las respuestas
 def traerGraves(self, proceso_pt):
      cursor.execute("""
                     SELECT preguntas.pregunta, COUNT(*) AS veces_no
@@ -232,6 +249,7 @@ def traerGraves(self, proceso_pt):
      resultados = cursor.fetchall()
      return resultados
 
+#Esta funcion es para llenar el combobox de los procesos para filtrar las desviaciones y errores operativos
 def llenarFiltros(self):
      #self.filtroProceso.addItem("-Seleccionar-",0)
      cursor.execute("SELECT nombre_proceso FROM procesos_pt;")

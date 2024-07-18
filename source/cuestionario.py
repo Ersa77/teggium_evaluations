@@ -114,7 +114,7 @@ class cuestionario(QMainWindow):
                 #Se trae el combobox con SI o NO
                 res= self.space_preguntas.cellWidget(filaPregunta, 1).currentText()
                 #print(self.space_preguntas.cellWidget(filaPregunta, 1).currentText())
-                if res == 'Si':
+                if res == 'Si' or res == 'N/A':
                      resultado= resultado + int(pregunta[2])
 
                 #Se trae el textedit con los comentarios 

@@ -58,6 +58,7 @@ class dashUser(QWidget):
         respuestas= mostrarEvasPorUsuario(self, usuario, siniestro)
         if len(respuestas) == 0:
             modelRespuestas = QStandardItemModel(len(respuestas),1)
+            print(len(respuestas))
             headerRespuestas = ['NOT DATA AVAILABLE | NADA QUE VER POR ACA UWU']
             modelRespuestas.setHorizontalHeaderLabels(headerRespuestas)
             self.listaEvaluaciones.setModel(modelRespuestas)
