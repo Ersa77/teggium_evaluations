@@ -1,9 +1,13 @@
 #Importamos lo que necesitamos para trabajar:
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QApplication
+from PyQt5.QtWidgets import QWidget, QApplication, QMessageBox
 from PyQt5.QtGui import QStandardItemModel, QIcon, QStandardItem
 from PyQt5.uic import loadUi
-from conection import visualizarUsuario, promedioUsuario, numEvaluacionesUser, listadoEvaluacionesUser, promedioEvaEspecifica, mostrarEvasPorUsuario, retroalimentacion
+from conection import visualizarUsuario, promedioUsuario, numEvaluacionesUser, listadoEvaluacionesUser, promedioEvaEspecifica, mostrarEvasPorUsuario, retroalimentacion, proceso, auditora, supervisor, fechaEva
+import openpyxl
+from tkinter import Tk
+from tkinter.filedialog import asksaveasfilename
+from openpyxl.styles import Alignment
+from datetime import datetime
 
 #Creamos la clase principal del dash individual para llamarla desde la pagina principa, del sistema
 class dashUser(QWidget):
@@ -24,6 +28,9 @@ class dashUser(QWidget):
         self.siniestroFilter.currentIndexChanged.connect(self.promedioEva)
         self.siniestroFilter.currentIndexChanged.connect(self.respuestasEva)
         self.siniestroFilter.currentIndexChanged.connect(self.retroUsuario)
+        self.siniestroFilter.currentIndexChanged.connect(self.procesoEva)
+        #GUARDAR RETRO SI ES QUE SE SELECCIONO
+        self.saveEvaluation.clicked.connect(self.guardar)
         #Salir y volver a la pagina principal
         self.exit.clicked.connect(self.salir)
 
@@ -56,6 +63,7 @@ class dashUser(QWidget):
         usuario= self.userFilter.currentText()
         siniestro= self.siniestroFilter.currentText()
         respuestas= mostrarEvasPorUsuario(self, usuario, siniestro)
+        print("\n" + str(respuestas))
         if len(respuestas) == 0:
             modelRespuestas = QStandardItemModel(len(respuestas),1)
             print(len(respuestas))
@@ -64,8 +72,8 @@ class dashUser(QWidget):
             self.listaEvaluaciones.setModel(modelRespuestas)
             self.listaEvaluaciones.resizeColumnsToContents()
         else:
-            modelRespuestas = QStandardItemModel(len(respuestas), len(respuestas[1]))
-            headerRespuestas = ['PREGUNTA', 'RESPUESTA']
+            modelRespuestas = QStandardItemModel(len(respuestas),3)
+            headerRespuestas = ['PREGUNTA', 'PONDERACION', 'RESPUESTA']
             modelRespuestas.setHorizontalHeaderLabels(headerRespuestas)
             for respuesta, dataRespuesta in enumerate(respuestas):
                 for columnaRespuesta, datacolumnaRespuesta in enumerate(dataRespuesta):
@@ -87,6 +95,66 @@ class dashUser(QWidget):
                 retroUser += comentario[0] + ': ' + comentario[1] +'\n\n'
             self.retro.setText(retroUser)
             self.retro.setWordWrap(True)
+    def procesoEva(self):
+        self.procesoEvaluado.setText('')
+        usuario= self.userFilter.currentText()
+        siniestro= self.siniestroFilter.currentText()
+        procesoEvaluado= proceso(self, usuario, siniestro)
+        self.procesoEvaluado.setText("PROCESO EVALUADO: " + str(procesoEvaluado))
+        self.procesoEvaluado.setWordWrap(True)
+    #FUNCION PARA GUARDAR LA RETRO EN EL ARCHIVO DE EXCEL
+    def guardar(self):
+        #Verificamos si el label de la retro no esta vacia
+        if self.retro.text():
+            #Aqui seteamos las variables para llenar las celdas despues
+            empleado = self.userFilter.currentText()
+            cantidadEvaluaciones = numEvaluacionesUser(self,empleado)
+            siniestro= self.siniestroFilter.currentText()
+            procesoEva = proceso(self, empleado, siniestro)
+            analistaEvaluador= auditora(self,empleado,siniestro)
+            supervisorA = supervisor(self, empleado,siniestro)
+            promUsuario= promedioEvaEspecifica(self, empleado, siniestro)
+            fechaEvaluacionCRUD = datetime.strptime(str(fechaEva(self,empleado,siniestro)),"%Y-%m-%d")
+            fechaRetro = fechaEvaluacionCRUD.strftime("%d/%m/%Y")
+            fechaActual = datetime.now()
+            fechaEvaluacion = fechaActual.strftime("%d/%m/%Y")
+            # Cargar el archivo de Excel existente
+            ruta_plantilla = 'media/docs/BLANCO.xlsx' 
+            wb = openpyxl.load_workbook(ruta_plantilla)
+            sheet = wb.active
+            # Modificar el archivo de Excel
+            sheet['B2'] = str(empleado)
+            sheet['E2'] = str(analistaEvaluador)
+            sheet['B3'] = str(procesoEva)
+            sheet['E3'] = str(supervisorA)
+            sheet['B4'] = str(cantidadEvaluaciones)
+            sheet['E4'] = str(promUsuario)
+            sheet['C5'] = str(fechaEvaluacion)
+            sheet['F5'] = str(fechaRetro)
+            sheet['A7'] = self.retro.text()
+            sheet['A7'].alignment = Alignment(wrap_text=True)
+            sheet['A21'] = str(empleado)
+            sheet['B21'] = str(analistaEvaluador)
+            sheet['A26'] = str(supervisorA)
+            # Oculta la ventana principal de Tkinter
+            Tk().withdraw()
+
+            # Mostrar el diálogo para guardar el archivo modificado
+            nombreArchivo= str(empleado) + " - " + str(siniestro)
+            file_path = asksaveasfilename(defaultextension=".xlsx", 
+                                        filetypes=[("Excel files", "*.xlsx"), ("All files", "*.*")],
+                                        title="Guardar archivo como",
+                                        initialfile=nombreArchivo)
+            if file_path:
+                wb.save(file_path)
+                print(f"Archivo guardado como: {file_path}")
+                QMessageBox.information(self, "GUARDAR RETRO", "ARCHIVO GUARDADO")
+            else:
+                print("No se guardó el archivo.")
+                QMessageBox.warning(self, "GUARDAR RETRO", "NO SE GUARDO EL ARCHIVO")
+        else:
+            QMessageBox.information(self, "GUARDAR RETRO", "SELECCIONE UNA EVALUACION")
+
     #Funcion para salir
     def salir(self):
         self.close()

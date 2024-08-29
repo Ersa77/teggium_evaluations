@@ -334,7 +334,7 @@ def promedioEvaEspecifica(self, usuario, siniestro):
 #Esta función nos traera las preguntas de la evaluación especifica que estamos mostrando
 def mostrarEvasPorUsuario(self, usuario, siniestro):
      cursor.execute("""
-                    SELECT pregunta AS "PREGUNTA", respuesta AS "RESPUESTA"
+                    SELECT pregunta AS "PREGUNTA", ponderacion AS "VALOR", respuesta AS "RESPUESTA"
                     FROM respuestas
                     JOIN pt_anaylst_teggium USING (id_user)
                     JOIN tipos_evaluaciones USING (id_tipo)
@@ -362,3 +362,79 @@ def retroalimentacion(self, usuario, siniestro):
                     """, (usuario, siniestro))
      resultados = cursor.fetchall()
      return resultados
+
+#ESTA FUNCION NOS SIRVE PARA TRAER EL PROCESO QUE ESTAMOS EVALUANDO
+def proceso(self, usuario, siniestro):
+     cursor.execute("""
+                    SELECT DISTINCT nombre_proceso AS "PROCESO EVALUADO"
+                    FROM respuestas
+                    JOIN pt_anaylst_teggium USING (id_user)
+                    JOIN tipos_evaluaciones USING (id_tipo)
+                    JOIN procesos_pt USING (id_proceso)
+                    JOIN preguntas USING (id_pregunta)
+                    WHERE name_anaylst = ?
+                    AND no_siniestro = ?
+                    """, (usuario, siniestro))
+     resultados = cursor.fetchone()
+     if resultados is not None:
+          procesoEvaluado= resultados[0]
+          return procesoEvaluado
+     else:
+          return 0
+     
+#ESTA FUNCION NOS SIRVE PARA TRAER EL ANALISTA EVALUADOR
+def auditora(self, usuario, siniestro):
+     cursor.execute("""
+                    SELECT DISTINCT name_aud AS "ANALISTA"
+                    FROM respuestas
+                    JOIN pt_anaylst_teggium USING (id_user)
+                    JOIN auditores_calidad USING (id_aud)
+                    JOIN procesos_pt USING (id_proceso)
+                    JOIN preguntas USING (id_pregunta)
+                    WHERE name_anaylst = ?
+                    AND no_siniestro = ?
+                    """, (usuario, siniestro))
+     resultados = cursor.fetchone()
+     if resultados is not None:
+          auditora= resultados[0]
+          return auditora
+     else:
+          return 0
+     
+#ESTA FUNCION NOS SIRVE PARA TRAER EL SUPERVISOR A CARGO DEL EVAULADO
+def supervisor(self, usuario, siniestro):
+     cursor.execute("""
+                    SELECT DISTINCT nombre_supervisor AS "SUPERVISOR"
+                    FROM respuestas
+                    JOIN pt_anaylst_teggium USING (id_user)
+                    JOIN supervisores USING (id_supervisor)
+                    JOIN procesos_pt USING (id_proceso)
+                    JOIN preguntas USING (id_pregunta)
+                    WHERE name_anaylst = ?
+                    AND no_siniestro = ?
+                    """, (usuario, siniestro))
+     resultados = cursor.fetchone()
+     if resultados is not None:
+          supervisor= resultados[0]
+          return supervisor
+     else:
+          return 0
+     
+#ESTA FUNCION NOS SIRVE PARA TRAER LA FECHA DE LA EVALUACION EN ESPECIFICO
+def fechaEva(self, usuario, siniestro):
+     cursor.execute("""
+                    SELECT DISTINCT fecha_evaluacion AS "FECHA"
+                    FROM respuestas
+                    JOIN pt_anaylst_teggium USING (id_user)
+                    JOIN supervisores USING (id_supervisor)
+                    JOIN procesos_pt USING (id_proceso)
+                    JOIN preguntas USING (id_pregunta)
+                    WHERE name_anaylst = ?
+                    AND no_siniestro = ?
+                    """, (usuario, siniestro))
+     resultados = cursor.fetchone()
+     if resultados is not None:
+          fechaEva= resultados[0]
+          return fechaEva
+     else:
+          return 0
