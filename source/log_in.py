@@ -46,15 +46,25 @@ class Login(QWidget):
         
         #Si el usuario y contraseña son correctos, se inicia sesión, y se guardan los datos del usuario logeado para la ventana principal
         elif usuario:
-            from mainpage_analista_calidad import Logout
+            #AQUI ME QUEDE; HAY QUE ACOMODAR LOS ROLES Y USUARIOS XD (SI HOY HOY XD)
+            #Entonces, si el rol es diferente al supervisor, se mete a la pagina normal xd
             from conection import usuario_analista_evaluador
-            self.close()
-            QMessageBox.information(self, "INICIO DE SESION", "INICIO DE SESION EXITOSO")
             usuario_logeado = usuario_analista_evaluador(username)
             nombre, rol = usuario_logeado
-            self.main_window= Logout(nombre, rol)
-            self.main_window.show()
-            self.log_in = Login()
+            if rol != 'Supervisor':  
+                from mainpage_analista_calidad import Logout
+                self.close()
+                QMessageBox.information(self, "INICIO DE SESION", "INICIO DE SESION EXITOSO")
+                self.main_window = Logout(nombre, rol)
+                self.main_window.show()
+                self.log_in = Login()
+            else:
+                from mainPageSupervisor import Logout
+                self.close()
+                QMessageBox.information(self, "INICIO DE SESION", "INICIO DE SESION EXITOSO")
+                self.main_window = Logout(nombre, rol)
+                self.main_window.show()
+                self.log_in = Login()
         
         #Si la información ingresada fue incorrecta, se lanza una advertencia
         else:

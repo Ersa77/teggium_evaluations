@@ -29,6 +29,7 @@ class dashUser(QWidget):
         self.siniestroFilter.currentIndexChanged.connect(self.respuestasEva)
         self.siniestroFilter.currentIndexChanged.connect(self.retroUsuario)
         self.siniestroFilter.currentIndexChanged.connect(self.procesoEva)
+        self.siniestroFilter.currentIndexChanged.connect(self.fechaEvaluacion)
         #GUARDAR RETRO SI ES QUE SE SELECCIONO
         self.saveEvaluation.clicked.connect(self.guardar)
         #Salir y volver a la pagina principal
@@ -63,10 +64,10 @@ class dashUser(QWidget):
         usuario= self.userFilter.currentText()
         siniestro= self.siniestroFilter.currentText()
         respuestas= mostrarEvasPorUsuario(self, usuario, siniestro)
-        print("\n" + str(respuestas))
+        #print("\n" + str(respuestas))
         if len(respuestas) == 0:
             modelRespuestas = QStandardItemModel(len(respuestas),1)
-            print(len(respuestas))
+            #print(len(respuestas))
             headerRespuestas = ['NOT DATA AVAILABLE | NADA QUE VER POR ACA UWU']
             modelRespuestas.setHorizontalHeaderLabels(headerRespuestas)
             self.listaEvaluaciones.setModel(modelRespuestas)
@@ -102,6 +103,18 @@ class dashUser(QWidget):
         procesoEvaluado= proceso(self, usuario, siniestro)
         self.procesoEvaluado.setText("PROCESO EVALUADO: " + str(procesoEvaluado))
         self.procesoEvaluado.setWordWrap(True)
+    def fechaEvaluacion(self):
+        self.evaDateUwU.setText('')
+        usuario = self.userFilter.currentText()
+        siniestro= self.siniestroFilter.currentText()
+        firstDate = fechaEva(self,usuario,siniestro)
+        if firstDate != 0:
+            fechaEvaluacionCRUD = datetime.strptime(str(firstDate),"%Y-%m-%d")
+            fechaEvaluacion = fechaEvaluacionCRUD.strftime("%d/%m/%Y")
+            self.evaDateUwU.setText('FECHA DE EVALUACION: '+str(fechaEvaluacion))
+        else:
+            self.evaDateUwU.setText('0')
+
     #FUNCION PARA GUARDAR LA RETRO EN EL ARCHIVO DE EXCEL
     def guardar(self):
         #Verificamos si el label de la retro no esta vacia
@@ -147,10 +160,10 @@ class dashUser(QWidget):
                                         initialfile=nombreArchivo)
             if file_path:
                 wb.save(file_path)
-                print(f"Archivo guardado como: {file_path}")
+                #print(f"Archivo guardado como: {file_path}")
                 QMessageBox.information(self, "GUARDAR RETRO", "ARCHIVO GUARDADO")
             else:
-                print("No se guardó el archivo.")
+                #print("No se guardó el archivo.")
                 QMessageBox.warning(self, "GUARDAR RETRO", "NO SE GUARDO EL ARCHIVO")
         else:
             QMessageBox.information(self, "GUARDAR RETRO", "SELECCIONE UNA EVALUACION")
