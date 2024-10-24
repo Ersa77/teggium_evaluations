@@ -282,13 +282,15 @@ def promedioUsuario(self, usuario):
      promUser = resultado[0]
      return promUser
 
-#Esta función nos trae la cantidad de evaluaciones que tiene un usuario especifico
+#Esta función nos trae la cantidad de evaluaciones que tiene un usuario especifico DENTRO DEL MES ACTUAL UWUWUWUW
 def numEvaluacionesUser(self, usuario):
      cursor.execute("""
                     SELECT count(DISTINCT id_evaluacion) AS "TOTAL EVALUACIONES" 
                     FROM respuestas
                     JOIN pt_anaylst_teggium USING (id_user)
                     WHERE name_anaylst = ?
+                    AND strftime('%m', strftime('%Y-%m-%d', fecha_evaluacion)) = strftime('%m', 'now')
+                    AND strftime('%Y', strftime('%Y-%m-%d', fecha_evaluacion)) = strftime('%Y', 'now')
                     """, (usuario,))
      numEva= cursor.fetchone()
      if numEva is not None:

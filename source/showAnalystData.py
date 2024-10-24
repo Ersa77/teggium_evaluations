@@ -47,7 +47,7 @@ class dashUser(QWidget):
     def cantidadEvas(self):
         usuario= self.userFilter.currentText()
         cantidadEvas = numEvaluacionesUser(self,usuario)
-        self.evaluaciones.setText("EVALUACIONES: " + str(cantidadEvas))
+        self.evaluaciones.setText("EVALUACIONES DEL MES: " + str(cantidadEvas))
     # Funcion para llenar el filtro de siniestros segun el usuario seleccionado
     def siniestrosEvaluados(self):
         self.siniestroFilter.clear()
