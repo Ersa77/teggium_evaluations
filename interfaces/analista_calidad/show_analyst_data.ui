@@ -57,7 +57,7 @@ font: 18pt &quot;Arial&quot;;
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>30</y>
+     <y>10</y>
      <width>241</width>
      <height>41</height>
     </rect>
@@ -70,10 +70,13 @@ font: 18pt &quot;Arial&quot;;
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
+     <y>100</y>
      <width>321</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="editable">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QTableView" name="listaEvaluaciones">
@@ -251,6 +254,42 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>FECHA DE EVALUACION:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="campania">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>60</y>
+     <width>101</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="campainLabel">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>60</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CAMPAÑA</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="campainLabel_2">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>100</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>USUARIO</string>
    </property>
   </widget>
  </widget>

@@ -23,10 +23,11 @@ class new_evaluation(QMainWindow):
         self.analyst_name.addItem("-Seleccionar-",0)
         llenar_campaings(self)
         self.campania.currentIndexChanged.connect(self.actualizar_supervisor)
+        self.campania.currentIndexChanged.connect(self.actualizarProcesos)
         self.supervisor.currentIndexChanged.connect(self.actualizar_analista)
         #llenar_supervisor(self, campaign)
         llenar_tipos_evaluaciones(self)
-        llenar_activity(self)
+        #llenar_activity(self)
         llenar_evaluador(self)
         self.clear_form.clicked.connect(self.limpiar)
         self.cancel.clicked.connect(self.cancelar)
@@ -60,6 +61,12 @@ class new_evaluation(QMainWindow):
         self.empezar_cuestionario = cuestionario(campaign, analyst, supervisor, siniestro, fecha_evaluacion, proceso_pt, tipo_evaluacion, evaluador, preguntas, desviaciones)
         self.close()
         self.empezar_cuestionario.show()
+
+#Cuando se cambia el combobox de campaña para ver solo evaluaciones de esa campaña en especifico
+    def actualizarProcesos(self):
+        self.activity.clear()
+        campaign = self.campania.currentText()
+        llenar_activity(self,campaign)
 
 #Cuando se cambia un valor de los combobox de campaña o supervisor
     def actualizar_supervisor(self):

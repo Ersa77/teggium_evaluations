@@ -1,8 +1,9 @@
 #Importamos lo que necesitamos para trabajar:
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QWidget, QApplication, QMessageBox
 from PyQt5.QtGui import QStandardItemModel, QIcon, QStandardItem
 from PyQt5.uic import loadUi
-from conection import visualizarUsuario, promedioUsuario, numEvaluacionesUser, listadoEvaluacionesUser, promedioEvaEspecifica, mostrarEvasPorUsuario, retroalimentacion, proceso, auditora, supervisor, fechaEva
+from conection import visualizarUsuario, promedioUsuario, numEvaluacionesUser, listadoEvaluacionesUser, promedioEvaEspecifica, mostrarEvasPorUsuario, retroalimentacion, proceso, auditora, supervisor, fechaEva, campaignRegistered
 import openpyxl
 from tkinter import Tk
 from tkinter.filedialog import asksaveasfilename
@@ -18,12 +19,14 @@ class dashUser(QWidget):
         loadUi('interfaces/analista_calidad/show_analyst_data.ui', self)
         self.setWindowIcon(QIcon('media/icons/icon_app.ico'))
         self.setWindowTitle('DESEMPEÑO POR EJECUTIVO')
-        #llenar combobox de usuarios
-        visualizarUsuario(self)
+        #llenar combobox de campañas
+        campaignRegistered(self)
+        #Cuando el combobox de las campañas cambie, cambiara el combobox de los usuarios
+        self.campania.currentIndexChanged.connect(self.usuariosCamp)
         #Cuando se cambie el combobox de usuario, actualizar el promedio, cantidad de evaluaciones y el llenado del filtro de siniestros
-        self.userFilter.currentIndexChanged.connect(self.promedioUsuario)
-        self.userFilter.currentIndexChanged.connect(self.cantidadEvas)
-        self.userFilter.currentIndexChanged.connect(self.siniestrosEvaluados)
+        self.campania.currentIndexChanged.connect(self.promedioUsuario)
+        self.campania.currentIndexChanged.connect(self.cantidadEvas)
+        self.campania.currentIndexChanged.connect(self.siniestrosEvaluados)
         #Cuando cambie el combobox de los siniestros por usuario, actualizar el promedio de dicho siniestro, las tabla de respuestas y el texto de retroaliemttacion
         self.siniestroFilter.currentIndexChanged.connect(self.promedioEva)
         self.siniestroFilter.currentIndexChanged.connect(self.respuestasEva)
@@ -43,11 +46,22 @@ class dashUser(QWidget):
         usuario= self.userFilter.currentText()
         promUsuario= promedioUsuario(self, usuario)
         self.promedioUser.setText("PROMEDIO GENERAL: " + str(round(promUsuario,2)))
+    #Funcion para limpiar contenidos:
+    def limpiar(self):
+        for combobox in self.findChildren(QtWidgets.QComboBox):
+            combobox.setCurrentIndex(-1)
+        for lineedit in self.findChildren(QtWidgets.QLineEdit):
+            lineedit.clear()
     # Funcion para traer la cantidad de evaluaciones
     def cantidadEvas(self):
         usuario= self.userFilter.currentText()
         cantidadEvas = numEvaluacionesUser(self,usuario)
         self.evaluaciones.setText("EVALUACIONES DEL MES: " + str(cantidadEvas))
+    #Aqui vamos a agregar una funcion para filtrar los usuarios segun la campaña:
+    def usuariosCamp(self):
+        self.userFilter.clear()
+        camp = self.campania.currentText()
+        visualizarUsuario(self, camp)
     # Funcion para llenar el filtro de siniestros segun el usuario seleccionado
     def siniestrosEvaluados(self):
         self.siniestroFilter.clear()

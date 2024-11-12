@@ -60,9 +60,9 @@ def llenar_tipos_evaluaciones(self):
           self.tipo_evaluacion.addItem(resultado[0])
 
 #Funcion para llenar el combobox de los procesos para evaluar
-def llenar_activity(self):
+def llenar_activity(self, campania):
      self.activity.addItem("-Seleccionar-",0)
-     cursor.execute("SELECT nombre_proceso FROM procesos_pt;")
+     cursor.execute("SELECT nombre_proceso FROM procesos_pt WHERE idCampania = (SELECT id_campaign FROM campaigns WHERE name_campaign = ?)",(campania,))
      resultados= cursor.fetchall()
      for resultado in resultados:
           self.activity.addItem(resultado[0])
@@ -259,13 +259,15 @@ def llenarFiltros(self):
 
 #Esta función trae el listado de los usuarios que han hecho evaluaciones, si las han hecho, apareceran aqui
 #aqui el for llena el combobox espcifico, por lo que solo funcionara en ese combobox
-def visualizarUsuario(self):
+def visualizarUsuario(self, camp):
      cursor.execute("""
                     SELECT DISTINCT name_anaylst
                     FROM respuestas
-                    JOIN pt_anaylst_teggium USING (id_user)""")
+                    JOIN pt_anaylst_teggium USING (id_user)
+                    WHERE respuestas.id_campaign = (SELECT id_campaign FROM campaigns WHERE name_campaign = ?)""", (camp,))
      usuariosFiltro= cursor.fetchall()
      #self.userFilter.addItem('-Seleccionar-',0)
+     
      for resultado in usuariosFiltro:
           self.userFilter.addItem(resultado[0])
 
@@ -279,8 +281,11 @@ def promedioUsuario(self, usuario):
                     WHERE name_anaylst = ?
                     """, (usuario,))
      resultado= cursor.fetchone()
-     promUser = resultado[0]
-     return promUser
+     if resultado is not None: 
+          promUser = resultado[0]
+          return promUser
+     else:
+          return 0
 
 #Esta función nos trae la cantidad de evaluaciones que tiene un usuario especifico DENTRO DEL MES ACTUAL UWUWUWUW
 def numEvaluacionesUser(self, usuario):
@@ -440,3 +445,13 @@ def fechaEva(self, usuario, siniestro):
           return fechaEva
      else:
           return 0
+     
+def campaignRegistered(self):
+        cursor.execute("""
+                    SELECT DISTINCT name_campaign
+                    FROM respuestas
+                    JOIN campaigns USING (id_campaign)
+                    """)
+        resultados= cursor.fetchall()
+        for resultado in resultados:
+            self.campania.addItem(resultado[0])
