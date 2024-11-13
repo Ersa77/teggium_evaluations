@@ -185,25 +185,6 @@ color: rgb(255, 255, 255);</string>
     <string>RESULTADO: </string>
    </property>
   </widget>
-  <widget class="QLabel" name="retro">
-   <property name="geometry">
-    <rect>
-     <x>700</x>
-     <y>300</y>
-     <width>251</width>
-     <height>331</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 12pt &quot;Arial&quot;;</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-   </property>
-  </widget>
   <widget class="QPushButton" name="saveEvaluation">
    <property name="geometry">
     <rect>
@@ -291,6 +272,38 @@ color: rgb(255, 255, 255);</string>
    <property name="text">
     <string>USUARIO</string>
    </property>
+  </widget>
+  <widget class="QScrollArea" name="retro">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>300</y>
+     <width>261</width>
+     <height>371</height>
+    </rect>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOn</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="widgetResizable">
+    <bool>false</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>259</width>
+      <height>369</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

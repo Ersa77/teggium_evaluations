@@ -1,6 +1,6 @@
 #Importamos lo que necesitamos para trabajar:
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QWidget, QApplication, QMessageBox
+from PyQt5.QtWidgets import QWidget, QApplication, QMessageBox, QVBoxLayout, QLabel
 from PyQt5.QtGui import QStandardItemModel, QIcon, QStandardItem
 from PyQt5.uic import loadUi
 from conection import visualizarUsuario, promedioUsuario, numEvaluacionesUser, listadoEvaluacionesUser, promedioEvaEspecifica, mostrarEvasPorUsuario, retroalimentacion, proceso, auditora, supervisor, fechaEva, campaignRegistered
@@ -19,6 +19,12 @@ class dashUser(QWidget):
         loadUi('interfaces/analista_calidad/show_analyst_data.ui', self)
         self.setWindowIcon(QIcon('media/icons/icon_app.ico'))
         self.setWindowTitle('DESEMPEÑO POR EJECUTIVO')
+        #Aqui vamos a intentar agregar un layout para hacer el scroll de la retroalimentación:
+        self.container = QWidget()
+        self.retro.setWidget(self.container)
+        self.retro.setWidgetResizable(True)
+        self.layout = QVBoxLayout()
+        self.container.setLayout(self.layout)
         #llenar combobox de campañas
         campaignRegistered(self)
         #Cuando el combobox de las campañas cambie, cambiara el combobox de los usuarios
@@ -27,6 +33,8 @@ class dashUser(QWidget):
         self.campania.currentIndexChanged.connect(self.promedioUsuario)
         self.campania.currentIndexChanged.connect(self.cantidadEvas)
         self.campania.currentIndexChanged.connect(self.siniestrosEvaluados)
+        #CUando se cambie el usuario se cambiara tambien el siniestro:
+        self.userFilter.currentIndexChanged.connect(self.siniestrosEvaluados)
         #Cuando cambie el combobox de los siniestros por usuario, actualizar el promedio de dicho siniestro, las tabla de respuestas y el texto de retroaliemttacion
         self.siniestroFilter.currentIndexChanged.connect(self.promedioEva)
         self.siniestroFilter.currentIndexChanged.connect(self.respuestasEva)
@@ -98,18 +106,27 @@ class dashUser(QWidget):
             self.listaEvaluaciones.resizeColumnsToContents()
     # Funcion para llenar el texto de retroalimentación
     def retroUsuario(self):
-        self.retro.setText('')
+        #self.retro.setText('')
+        while self.layout.count():
+            widget = self.layout.takeAt(0).widget()
+            if widget is not None:
+                widget.deleteLater()
         usuario= self.userFilter.currentText()
         siniestro= self.siniestroFilter.currentText()
         comentarios = retroalimentacion(self, usuario, siniestro)
         if len(comentarios) == 0:
-            self.retro.setText("Todo en orden, ¡sigue así!")
+            mensaje = "Todo en orden, ¡sigue asi!"
+            labelnone = QLabel(mensaje)
+            self.layout.addWidget(labelnone)
         else:
-            retroUser = "RETROALIMENTACION \n\n"
+            retroUser = "RETROALIMENTACION"
             for comentario in comentarios:
-                retroUser += comentario[0] + ': ' + comentario[1] +'\n\n'
-            self.retro.setText(retroUser)
-            self.retro.setWordWrap(True)
+                texto = comentario[0] + '\n' + comentario[1]
+                label = QLabel(texto)
+                label.setWordWrap(True)
+                self.layout.addWidget(label)
+            #self.retro.setText(retroUser)
+            #self.retro.setWordWrap(True)
     def procesoEva(self):
         self.procesoEvaluado.setText('')
         usuario= self.userFilter.currentText()
@@ -128,11 +145,18 @@ class dashUser(QWidget):
             self.evaDateUwU.setText('FECHA DE EVALUACION: '+str(fechaEvaluacion))
         else:
             self.evaDateUwU.setText('0')
-
+    #Aqui vamos a comprobar que haya texto en el scrollarea de la retroalimentación para poder guardarla
+    def haytextoxd(self):
+        for i in range(self.layout.count()):
+            widget = self.layout.itemAt(i).widget()
+            if isinstance(widget, QLabel) and widget.text():
+                return True
+        return False
+    
     #FUNCION PARA GUARDAR LA RETRO EN EL ARCHIVO DE EXCEL
     def guardar(self):
         #Verificamos si el label de la retro no esta vacia
-        if self.retro.text():
+        if self.haytextoxd():
             #Aqui seteamos las variables para llenar las celdas despues
             empleado = self.userFilter.currentText()
             cantidadEvaluaciones = numEvaluacionesUser(self,empleado)
@@ -150,6 +174,7 @@ class dashUser(QWidget):
             wb = openpyxl.load_workbook(ruta_plantilla)
             sheet = wb.active
             # Modificar el archivo de Excel
+            sheet['A6'] = 'OBSERVACIONES SINIESTRO: ' + str(siniestro)
             sheet['B2'] = str(empleado)
             sheet['E2'] = str(analistaEvaluador)
             sheet['B3'] = str(procesoEva)
@@ -158,7 +183,14 @@ class dashUser(QWidget):
             sheet['E4'] = str(promUsuario)
             sheet['C5'] = str(fechaEvaluacion)
             sheet['F5'] = str(fechaRetro)
-            sheet['A7'] = self.retro.text()
+            #Obtener todo el texto de la retroevaluación
+            textoRetro = ''
+            for i in range(self.layout.count()):
+                widget = self.layout.itemAt(i).widget()
+                if isinstance(widget, QLabel) and widget.text():
+                    textoRetro += widget.text() + "\n"
+                    #return textoRetro
+            sheet['A7'] = textoRetro
             sheet['A7'].alignment = Alignment(wrap_text=True)
             sheet['A21'] = str(empleado)
             sheet['B21'] = str(analistaEvaluador)
